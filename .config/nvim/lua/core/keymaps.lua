@@ -13,6 +13,7 @@ vim.opt.shiftround = true
 vim.opt.expandtab = true
 vim.wo.number = true
 vim.opt.relativenumber = true
+vim.opt.clipboard:append("unnamedplus")
 
 vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
 vim.api.nvim_set_keymap("n", "<leader>n", ":ASToggle<CR>", {})
