@@ -1,3 +1,6 @@
+autoload -U +X bashcompinit && bashcompinit
+autoload -U +X compinit && compinit
+
 source ~/.zshrc.base
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 source ~/.aliases
