@@ -1,3 +1,5 @@
+if [ "$TMUX" = "" ]; then tmux; fi
+
 autoload -U +X bashcompinit && bashcompinit
 autoload -U +X compinit && compinit
 
