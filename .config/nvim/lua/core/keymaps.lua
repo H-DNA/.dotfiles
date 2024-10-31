@@ -15,7 +15,6 @@ vim.wo.number = true
 vim.opt.relativenumber = true
 vim.opt.clipboard:append("unnamedplus")
 
-vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
 vim.keymap.set('n', '<c-s>v', '<c-w>v')
 vim.keymap.set('n', '<c-s>h', '<c-w>s')
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
