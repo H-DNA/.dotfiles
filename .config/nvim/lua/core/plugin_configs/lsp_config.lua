@@ -1,6 +1,6 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "vuels", "lua_ls", "rust_analyzer", "clangd", "cssls", "dockerls", "eslint", "html", "marksman", "sorbet", "rubocop", "tailwindcss", "tsserver", "jsonls", "pyright", "gopls", "golangci_lint_ls", "volar", "solargraph", "volar", "sqls", }
+  ensure_installed = { "lua_ls", "rust_analyzer", "clangd", "cssls", "dockerls", "eslint", "html", "marksman", "sorbet", "rubocop", "tailwindcss", "tsserver", "jsonls", "pyright", "gopls", "golangci_lint_ls", "volar", "solargraph", "volar", "sqls", }
 })
 local on_attach = function(_, _)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {})
