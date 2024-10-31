@@ -17,84 +17,82 @@ local lspconfig = require("lspconfig")
 
 lspconfig.sqls.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
-
 lspconfig.volar.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.solargraph.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.lua_ls.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.rust_analyzer.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.clangd.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.cssls.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.dockerls.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.html.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.jsonls.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.marksman.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.pyright.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.sorbet.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.rubocop.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.tailwindcss.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.tsserver.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.volar.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
-}
-lspconfig.vuels.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.gopls.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
 lspconfig.golangci_lint_ls.setup {
   on_attach = on_attach,
-  capabilities = capabilities,  
+  capabilities = capabilities,
 }
-vim.g.rustfmt_autosave = 1
+lspconfig.eslint.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
 vim.diagnostic.config({ update_in_insert = true })
