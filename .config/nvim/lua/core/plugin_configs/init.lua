@@ -6,6 +6,5 @@ require("core.plugin_configs.treesitter")
 require("core.plugin_configs.completion")
 require("core.plugin_configs.lsp_config")
 require("core.plugin_configs.lazy_git")
-require("core.plugin_configs.lsp_lines")
 require("core.plugin_configs.transparent")
 
