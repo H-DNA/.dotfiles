@@ -1,4 +1,4 @@
-require'nvim-treesitter.configs'.setup {
+require("nvim-treesitter.configs").setup({
   ensure_installed = { "c", "lua", "rust", "ruby", "vim", "javascript", "typescript", "cpp" },
 
   sync_install = false,
@@ -6,4 +6,4 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
   },
-}
+})
