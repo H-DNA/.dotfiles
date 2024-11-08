@@ -18,6 +18,7 @@ require("mason-lspconfig").setup({
     "volar",
     "volar",
     "sqls",
+    "elp",
   },
 })
 local on_attach = function(_, _)
@@ -42,6 +43,10 @@ lspconfig.volar.setup({
   capabilities = capabilities,
 })
 lspconfig.solargraph.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+lspconfig.elp.setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
