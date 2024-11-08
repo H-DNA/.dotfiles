@@ -68,6 +68,10 @@ return require("packer").startup(function(use)
 
   use("tpope/vim-fugitive")
 
+  -- discord
+  use("andweeb/presence.nvim")
+
+
   if packer_bootstrap then
     require("packer").sync()
   end
