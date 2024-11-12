@@ -32,6 +32,7 @@ local on_attach = function(_, _)
   vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
   vim.keymap.set("n", "<leader>gs", vim.lsp.buf.document_symbol, {})
   vim.keymap.set("n", "<leader>gc", vim.lsp.buf.outgoing_calls, {})
+  vim.keymap.set("n", "<leader>go", vim.diagnostic.open_float, {})
   vim.diagnostic.config({ update_in_insert = true })
 end
 
