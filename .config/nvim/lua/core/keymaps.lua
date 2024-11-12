@@ -29,6 +29,7 @@ vim.api.nvim_set_keymap("n", "]b", ":bnext<CR>", { noremap = true, silent = true
 vim.api.nvim_set_keymap("n", "[B", ":bfirst<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "]B", ":blast<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>bd", ":bd<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-b>d", ":buffers<CR>:bd<Space>", { noremap = true, silent = true })
 
 -- command copy file path to clipboard
 vim.cmd([[command! CopyFilePath let @+ = expand('%:p')]])
