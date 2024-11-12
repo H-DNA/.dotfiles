@@ -14,7 +14,7 @@ require("nvim-tree").setup({
     highlight_modified = "all",
     indent_markers = {
       enable = true,
-    }
+    },
   },
   update_cwd = true,
   update_focused_file = {
