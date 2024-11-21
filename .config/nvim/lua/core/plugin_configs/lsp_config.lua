@@ -14,7 +14,6 @@ local lsps = {
   "gopls",
   "golangci_lint_ls",
   "volar",
-  "volar",
   "sqls",
   "elp",
 }
