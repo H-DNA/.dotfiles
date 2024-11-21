@@ -25,7 +25,6 @@ vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", { noremap = true, silent = true 
 -- keymaps for buffer workflow
 vim.api.nvim_set_keymap("n", "<C-b>", ":buffers<CR>:buffer<Space>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>bd", ":bd<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-d>", ":buffers<CR>:bd<Space>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "[b", ":bprev<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "]b", ":bnext<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "[B", ":bfirst<CR>", { noremap = true, silent = true })
