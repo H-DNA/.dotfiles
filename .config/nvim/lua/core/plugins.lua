@@ -71,6 +71,8 @@ return require("packer").startup(function(use)
   -- discord
   use("andweeb/presence.nvim")
 
+  -- vim-be-good
+  use("ThePrimeagen/vim-be-good")
 
   if packer_bootstrap then
     require("packer").sync()
