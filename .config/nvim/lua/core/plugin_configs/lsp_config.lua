@@ -88,14 +88,7 @@ for index = 1, #lsps do
         '.eslintrc.yml',
         '.eslintrc.json'
       ),
-      -- Format a document on save
-      on_attach = function(client, bufnr)
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          buffer = bufnr,
-          command = "EslintFixAll",
-        })
-        on_attach(client, bufnr)
-      end,
+      on_attach = on_attach
     })
   else
     lsp_config[lsp_name].setup({
