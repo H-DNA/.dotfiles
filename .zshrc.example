@@ -1,3 +1,4 @@
+fpath+=~/.zfunc
 if [ "$TMUX" = "" ]; then tmux source-file ~/.tmux.conf; tmux; fi
 
 autoload -U +X bashcompinit && bashcompinit
