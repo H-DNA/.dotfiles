@@ -77,21 +77,26 @@ for index = 1, #lsps do
         run = "onType",
         validate = "on",
       },
-      root_dir = function (fname)
+      root_dir = function(fname)
         local root = lsp_config.util.root_pattern(
           'eslint.config.js',
           'eslint.config.mjs',
-          'eslint.config.cjs',
-          '.eslintrc',
-          '.eslintrc.js',
-          '.eslintrc.cjs',
-          '.eslintrc.yaml',
-          '.eslintrc.yml',
-          '.eslintrc.json'
+          'eslint.config.cjs'
         )(fname) or vim.fn.getcwd()
         return root
       end,
-      on_attach = on_attach
+      on_attach = function(client, bufnr)
+        local config_files = {
+          client.config.root_dir .. '/eslint.config.cjs',
+          client.config.root_dir .. '/eslint.config.mjs',
+          client.config.root_dir .. '/eslint.config.cjs',
+        }
+        if vim.fn.filereadable(config_files[1]) == 0 and vim.fn.filereadable(config_files[2]) == 0 and vim.fn.filereadable(config_files[3]) == 0 then
+          vim.notify("No ESLint config file found, detaching server.", vim.log.levels.WARN)
+          client.stop()
+        end
+        on_attach(client, bufnr)
+      end
     })
   else
     lsp_config[lsp_name].setup({
