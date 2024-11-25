@@ -57,6 +57,7 @@ for index = 1, #lsps do
       filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
     })
   elseif lsp_name == "eslint" then
+
     lsp_config.eslint.setup({
       filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
       settings = {
@@ -94,7 +95,12 @@ for index = 1, #lsps do
         if vim.fn.filereadable(config_files[1]) == 0 and vim.fn.filereadable(config_files[2]) == 0 and vim.fn.filereadable(config_files[3]) == 0 then
           vim.notify("No ESLint config file found, detaching server.", vim.log.levels.WARN)
           client.stop()
+          return
         end
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          command = "EslintFixAll",
+        })
         on_attach(client, bufnr)
       end
     })
