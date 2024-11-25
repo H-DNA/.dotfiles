@@ -28,7 +28,13 @@ local on_attach = function(_, _)
   vim.keymap.set("n", "<leader>gi", vim.lsp.buf.references, {})
   vim.keymap.set("n", "<leader>gr", vim.lsp.buf.rename, {})
   vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, {})
-  vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+  vim.keymap.set("n", "<leader>gf", function()
+    if vim.fn.exists(':EslintFixAll') then
+      vim.cmd('EslintFixAll')
+    else
+      vim.lsp.buf.format({ async = true })
+    end
+  end, {})
   vim.keymap.set("n", "<leader>gs", vim.lsp.buf.document_symbol, {})
   vim.keymap.set("n", "<leader>gc", vim.lsp.buf.outgoing_calls, {})
   vim.keymap.set("n", "<leader>go", vim.diagnostic.open_float, {})
@@ -97,10 +103,6 @@ for index = 1, #lsps do
           client.stop()
           return
         end
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          buffer = bufnr,
-          command = "EslintFixAll",
-        })
         on_attach(client, bufnr)
       end
     })
