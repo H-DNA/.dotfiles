@@ -77,17 +77,20 @@ for index = 1, #lsps do
         run = "onType",
         validate = "on",
       },
-      root_dir = lsp_config.util.root_pattern(
-        'eslint.config.js',
-        'eslint.config.mjs',
-        'eslint.config.cjs',
-        '.eslintrc',
-        '.eslintrc.js',
-        '.eslintrc.cjs',
-        '.eslintrc.yaml',
-        '.eslintrc.yml',
-        '.eslintrc.json'
-      ),
+      root_dir = function (fname)
+        local root = lsp_config.util.root_pattern(
+          'eslint.config.js',
+          'eslint.config.mjs',
+          'eslint.config.cjs',
+          '.eslintrc',
+          '.eslintrc.js',
+          '.eslintrc.cjs',
+          '.eslintrc.yaml',
+          '.eslintrc.yml',
+          '.eslintrc.json'
+        )(fname) or vim.fn.getcwd()
+        return root
+      end,
       on_attach = on_attach
     })
   else
