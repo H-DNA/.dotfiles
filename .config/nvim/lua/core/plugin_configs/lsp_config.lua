@@ -1,4 +1,5 @@
 local lsps = {
+  "ruff",
   "lua_ls",
   "rust_analyzer",
   "clangd",
@@ -104,6 +105,15 @@ for index = 1, #lsps do
         end
         on_attach(client, bufnr)
       end
+    })
+  elseif lsp_name == 'ruff' then
+    lsp_config.ruff.setup({
+      cmd = { 'ruff', 'server' },
+      filetypes = { 'python' },
+      root_dir = lsp_config.util.root_pattern('pyproject.toml', 'ruff.toml', '.ruff.toml') or
+      lsp_config.util.find_git_ancestor(),
+      single_file_support = true,
+      settings = {},
     })
   else
     lsp_config[lsp_name].setup({
