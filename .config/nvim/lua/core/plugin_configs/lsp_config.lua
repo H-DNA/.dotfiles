@@ -29,7 +29,7 @@ local on_attach = function(_, _)
   vim.keymap.set("n", "<leader>gr", vim.lsp.buf.rename, {})
   vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, {})
   vim.keymap.set("n", "<leader>gf", function()
-    if vim.fn.exists(':EslintFixAll') then
+    if vim.fn.exists(':EslintFixAll') ~= 0 then
       vim.cmd('EslintFixAll')
     else
       vim.lsp.buf.format({ async = true })
@@ -63,7 +63,6 @@ for index = 1, #lsps do
       filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
     })
   elseif lsp_name == "eslint" then
-
     lsp_config.eslint.setup({
       filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
       settings = {
