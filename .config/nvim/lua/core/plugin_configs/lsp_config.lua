@@ -97,7 +97,7 @@ for index = 1, #lsps do
           'eslint.config.js',
           'eslint.config.mjs',
           'eslint.config.cjs'
-        )(fname) or vim.fn.getcwd()
+        )(fname)
         return root
       end,
       on_attach = function(client, bufnr)
@@ -112,7 +112,8 @@ for index = 1, #lsps do
           return
         end
         on_attach(client, bufnr)
-      end
+      end,
+      single_file_support = false,
     })
   elseif lsp_name == 'ruff' then
     lsp_config.ruff.setup({
