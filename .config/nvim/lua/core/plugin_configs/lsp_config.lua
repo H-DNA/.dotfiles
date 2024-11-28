@@ -68,6 +68,8 @@ for index = 1, #lsps do
       on_attach = on_attach,
       capabilities = require("cmp_nvim_lsp").default_capabilities(),
       filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+      root_dir = lsp_config.util.root_pattern("package.json"),
+      single_file_support = false,
     })
   elseif lsp_name == "eslint" then
     lsp_config.eslint.setup({
