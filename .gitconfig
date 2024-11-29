@@ -1,0 +1,11 @@
+[user]
+	name = HuyDNA
+	email = huydo862003@gmail.com
+[core]
+	editor = nvim
+	autocrlf = input
+	whitespace = trailing-space,-space-before-tab,tab-in-indent,cr-at-eol
+[rerere]
+	enabled = true
+[pull]
+	rebase = true
