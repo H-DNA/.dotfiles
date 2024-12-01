@@ -3,7 +3,7 @@ local lsps = {
   "ruff",
   "lua_ls",
   "rust_analyzer",
-  "clangd",
+  "ast_grep",
   "cssls",
   "dockerls",
   "eslint",
