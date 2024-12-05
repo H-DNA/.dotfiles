@@ -74,6 +74,9 @@ return require("packer").startup(function(use)
   -- vim-be-good
   use("ThePrimeagen/vim-be-good")
 
+  -- vim-tmux-navigation
+  use("christoomey/vim-tmux-navigator")
+
   if packer_bootstrap then
     require("packer").sync()
   end
