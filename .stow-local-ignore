@@ -3,3 +3,5 @@ README.md
 .gitignore
 install_ubuntu.sh
 install_nixos.sh
+.gitmodules
+nix-config
