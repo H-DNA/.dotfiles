@@ -2,3 +2,4 @@ README.md
 .git
 .gitignore
 install_ubuntu.sh
+install_nixos.sh
