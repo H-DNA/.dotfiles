@@ -4,6 +4,7 @@ local lsps = {
   "lua_ls",
   "rust_analyzer",
   "ast_grep",
+  "jdtls",
   "cssls",
   "dockerls",
   "eslint",
