@@ -22,6 +22,9 @@ vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j", { noremap = true, silent = true 
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
 
+-- source config file
+vim.keymap.set("n", "<space>x", ":source %<CR>")
+
 -- keymaps for buffer workflow
 vim.api.nvim_set_keymap("n", "<C-b>", ":buffers<CR>:buffer<Space>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>bd", ":bd<CR>", { noremap = true, silent = true })
