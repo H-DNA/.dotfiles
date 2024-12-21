@@ -13,7 +13,6 @@ vim.opt.shiftround = true
 vim.opt.expandtab = true
 vim.wo.number = true
 vim.opt.relativenumber = true
-vim.opt.clipboard:append("unnamedplus")
 
 vim.keymap.set("n", "<c-s>v", "<c-w>v")
 vim.keymap.set("n", "<c-s>h", "<c-w>s")
