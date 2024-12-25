@@ -15,7 +15,6 @@ return {
     "ts_ls",
     "jsonls",
     "pyright",
-    "gopls",
     "golangci_lint_ls",
     "volar",
     "sqls",
