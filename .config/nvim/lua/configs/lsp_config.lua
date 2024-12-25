@@ -22,7 +22,7 @@ local lsps = {
 }
 
 require("mason").setup({
-    PATH = "append" -- Prioritize system packages, for Nix
+  PATH = "append"   -- Prioritize system packages, for Nix
 })
 require("mason-lspconfig").setup({
   ensure_installed = lsps,
