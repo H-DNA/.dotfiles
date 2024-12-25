@@ -1,6 +1,25 @@
--- Optional, you don't have to run setup.
+-- colortheme - gruvbox
+vim.o.termguicolors = true
+vim.cmd([[ colorscheme gruvbox ]])
+
+-- status line - lualine
+require("lualine").setup({
+  options = {
+    icons_enabled = true,
+    theme = "gruvbox",
+  },
+  sections = {
+    lualine_a = {
+      {
+        "filename",
+        path = 1,
+      },
+    },
+  },
+})
+
+-- transparent background
 require("transparent").setup({
-  -- table: default groups
   groups = {
     "Normal",
     "NormalNC",
@@ -28,11 +47,7 @@ require("transparent").setup({
     "StatusLineNC",
     "EndOfBuffer",
   },
-  -- table: additional groups that should be cleared
   extra_groups = {},
-  -- table: groups you don't want to clear
   exclude_groups = {},
-  -- function: code to be executed after highlight groups are cleared
-  -- Also the user event "TransparentClear" will be triggered
   on_clear = function() end,
 })
