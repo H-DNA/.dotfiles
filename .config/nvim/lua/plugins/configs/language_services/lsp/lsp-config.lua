@@ -5,7 +5,6 @@ for index = 1, #lsps do
   local lsp_config = require("lspconfig")
   if lsp_name == "denols" then
     lsp_config.denols.setup({
-      on_attach = on_attach,
       root_dir = lsp_config.util.root_pattern("deno.json", "deno.jsonc"),
     })
   elseif lsp_name == "ts_ls" then
@@ -22,7 +21,6 @@ for index = 1, #lsps do
           },
         },
       },
-      on_attach = on_attach,
       capabilities = require("cmp_nvim_lsp").default_capabilities(),
       filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
       root_dir = lsp_config.util.root_pattern("package.json"),
@@ -68,7 +66,6 @@ for index = 1, #lsps do
           client.stop()
           return
         end
-        on_attach(client, bufnr)
       end,
       single_file_support = false,
     })
@@ -83,7 +80,6 @@ for index = 1, #lsps do
     })
   else
     lsp_config[lsp_name].setup({
-      on_attach = on_attach,
       capabilities = require("cmp_nvim_lsp").default_capabilities(),
     })
   end

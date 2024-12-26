@@ -19,5 +19,7 @@ return {
     "volar",
     "sqls",
     "elp",
+    "clangd",
+    "cmake",
   }
 }
