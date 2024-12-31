@@ -136,7 +136,7 @@ bindsym Print exec grim - | wl-copy
 bar {
   position bottom
 
-  status_command i3blocks -c "~/.config/sway/i3blocks.toml"
+  status_command i3status -c "~/.config/sway/i3status"
 
   colors {
     statusline #ffffff
