@@ -5,7 +5,7 @@ My configurations for:
 - `alaccritty`, `kitty`, `ghostty` (currently used).
 - `nvim`
 - `sway` & `waybar`
-- `zshrc`
+- `zsh`
 
 ## External dependencies
 
