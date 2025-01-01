@@ -133,16 +133,6 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym Print exec grim - | wl-copy
 
 # Status Bar
-bar {
-  position bottom
-
-  status_command i3status -c "~/.config/sway/i3status"
-
-  colors {
-    statusline #ffffff
-    background #323232
-    inactive_workspace #32323200 #32323200 #5c5c5c
-  }
-}
+bar swaybar_command waybar
 
 include /etc/sway/config.d/*
