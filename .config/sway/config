@@ -6,6 +6,9 @@ exec swaync
 ### Fonts
 font pango:"JetBrainsMono Nerd Font" Regular 11
 
+### Input method
+exec fcitx5 --enable-all
+
 ### Variables
 set $mod Mod4
 
