@@ -21,5 +21,6 @@ return {
     "elp",
     "clangd",
     "cmake",
+    "tinymist",
   }
 }

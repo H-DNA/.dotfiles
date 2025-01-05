@@ -78,6 +78,24 @@ for index = 1, #lsps do
       single_file_support = true,
       settings = {},
     })
+  elseif lsp_name == "tinymist" then
+    lsp_config.tinymist.setup({
+      root_dir = lsp_config.util.root_pattern('main.typ') or
+          lsp_config.util.find_git_ancestor(),
+      offset_enconding = "utf-8",
+      settings = {
+        exportPdf = "onType",
+        formatterMode = "typstyle",
+        formatterPrintWidth = 80,
+        outputPath = "$root/target/$dir/$name",
+      },
+      on_attach = function(bufnr, client)
+        vim.lsp.buf.execute_command({
+          command = "tinymist.pinMain",
+          arguments = { vim.fs.joinpath(vim.fs.root(0, { "main.typ" }), "main.typ") },
+        })
+      end,
+    })
   else
     lsp_config[lsp_name].setup({
       capabilities = require("cmp_nvim_lsp").default_capabilities(),
