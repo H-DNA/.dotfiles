@@ -1,4 +1,4 @@
-require 'nvim-treesitter.configs'.setup {
+require("nvim-treesitter.configs").setup {
   textobjects = {
     select = {
       enable = true,
@@ -12,43 +12,25 @@ require 'nvim-treesitter.configs'.setup {
       },
       include_surrounding_whitespace = true,
     },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["<leader>a"] = "@parameter.inner",
-      },
-      swap_previous = {
-        ["<leader>A"] = "@parameter.inner",
-      },
-    },
     move = {
       enable = true,
       set_jumps = false, -- whether to set jumps in the jumplist
       goto_next_start = {
-        ["]m"] = "@function.outer",
+        ["]f"] = "@function.outer",
         ["]]"] = { query = "@class.outer", desc = "Next class start" },
-        ["]o"] = "@loop.*",
-        ["]s"] = { query = "@local.scope", query_group = "locals", desc = "Next scope" },
-        ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
       },
       goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
+        ["]F"] = "@function.outer",
+        ["]C"] = "@class.outer",
       },
       goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
+        ["[f"] = "@function.outer",
+        ["[c"] = "@class.outer",
       },
       goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
+        ["[F"] = "@function.outer",
+        ["[C"] = "@class.outer",
       },
-      goto_next = {
-        ["]d"] = "@conditional.outer",
-      },
-      goto_previous = {
-        ["[d"] = "@conditional.outer",
-      }
     },
   },
 }
