@@ -14,13 +14,6 @@ vim.opt.expandtab = true
 vim.wo.number = true
 vim.opt.relativenumber = true
 
-vim.keymap.set("n", "<c-s>v", "<c-w>v")
-vim.keymap.set("n", "<c-s>h", "<c-w>s")
-vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
-
 -- source config file
 vim.keymap.set("n", "<space>x", ":source %<CR>")
 
