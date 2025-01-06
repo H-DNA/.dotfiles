@@ -1,3 +1,4 @@
 alias v=vim
 alias code=vim
 alias cat=bat
+alias cd=z
