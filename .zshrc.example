@@ -1,5 +1,4 @@
 fpath+=~/.zfunc
-if [ "$TMUX" = "" ] && [ -n "$XDG_SESSION_TYPE" ] && [ "$XDG_SESSION_TYPE" != "tty" ]; then tmux source-file ~/.tmux.conf; tmux; fi
 
 autoload -U +X bashcompinit && bashcompinit
 autoload -U +X compinit && compinit
