@@ -22,7 +22,7 @@ set $menu wofi --show=drun
 
 ### Output configuration
 
-output * bg ~/.config/sway/backgrounds/wallpaper.png fill
+output * bg ~/.config/sway/backgrounds/change-of-heart.jpg fill
 
 ### Idle configuration
 #exec swayidle -w \
