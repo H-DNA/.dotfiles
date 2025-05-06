@@ -1,17 +1,3 @@
 [user]
-	name = HuyDNA
 	email = huydo862003@gmail.com
-[core]
-	editor = nvim
-	autocrlf = input
-	whitespace = trailing-space,-space-before-tab,tab-in-indent,cr-at-eol
-[rerere]
-	enabled = true
-[pull]
-	rebase = true
-[credential "https://github.com"]
-	helper = 
-	helper = !/run/current-system/sw/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/run/current-system/sw/bin/gh auth git-credential
+	name = Huy-DNA
