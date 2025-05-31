@@ -22,5 +22,6 @@ return {
     "clangd",
     "cmake",
     "tinymist",
+    "texlab",
   }
 }
