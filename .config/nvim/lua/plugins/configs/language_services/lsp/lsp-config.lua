@@ -7,6 +7,40 @@ for index = 1, #lsps do
     lsp_config.denols.setup({
       root_dir = lsp_config.util.root_pattern("deno.json", "deno.jsonc"),
     })
+  elseif lsp_name == "texlab" then
+    lsp_config.texlab.setup({
+      settings = {
+        texlab = {
+          bibtexFormatter = "texlab",
+          build = {
+            args = {
+              "-pdf",
+              "-interaction=nonstopmode",
+              "-synctex=1",
+              "-pvc", -- Enable continuous preview mode
+              "%f"
+            },
+            executable = "latexmk",
+            forwardSearchAfter = true, -- Enable forward search after build
+            onSave = true              -- Build on save (set to true for live preview)
+          },
+          chktex = {
+            onEdit = true,
+            onOpenAndSave = true -- Enable syntax checking
+          },
+          diagnosticsDelay = 300,
+          formatterLineLength = 80,
+          forwardSearch = {
+            executable = "zathura",
+            args = { "--synctex-forward", "%l:1:%f", "%p" }
+          },
+          latexFormatter = "latexindent",
+          latexindent = {
+            modifyLineBreaks = false
+          }
+        }
+      }
+    })
   elseif lsp_name == "ts_ls" then
     local mason_registry = require("mason-registry")
     local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
