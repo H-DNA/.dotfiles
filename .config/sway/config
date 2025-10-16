@@ -142,4 +142,11 @@ bindsym Print exec grim - | wl-copy
 # Status Bar
 bar swaybar_command waybar
 
+# Screenlock
+exec swayidle -w \
+    timeout 240 'swaylock -f' \
+    timeout 270 'swaymsg "output * power off"' \
+    resume 'swaymsg "output * power on"' \
+    before-sleep 'swaylock -f'
+
 include /etc/sway/config.d/*
