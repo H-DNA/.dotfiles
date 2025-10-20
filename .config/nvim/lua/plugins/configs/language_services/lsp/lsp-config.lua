@@ -85,7 +85,8 @@ for index = 1, #lsps do
         local root = lsp_config.util.root_pattern(
           'eslint.config.js',
           'eslint.config.mjs',
-          'eslint.config.cjs'
+          'eslint.config.cjs',
+          '.eslintrc.json'
         )(fname)
         return root
       end,
@@ -94,8 +95,9 @@ for index = 1, #lsps do
           client.config.root_dir .. '/eslint.config.cjs',
           client.config.root_dir .. '/eslint.config.mjs',
           client.config.root_dir .. '/eslint.config.cjs',
+          client.config.root_dir .. '/.eslintrc.json',
         }
-        if vim.fn.filereadable(config_files[1]) == 0 and vim.fn.filereadable(config_files[2]) == 0 and vim.fn.filereadable(config_files[3]) == 0 then
+        if vim.fn.filereadable(config_files[1]) == 0 and vim.fn.filereadable(config_files[2]) == 0 and vim.fn.filereadable(config_files[3]) == 0 and vim.fn.filereadable(config_files[4]) == 0 then
           vim.notify("No ESLint config file found, detaching server.", vim.log.levels.WARN)
           client.stop()
           return
