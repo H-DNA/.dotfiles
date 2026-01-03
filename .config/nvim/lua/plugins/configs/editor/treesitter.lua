@@ -1,4 +1,13 @@
-require("nvim-treesitter.configs").setup {
+require("nvim-treesitter.configs").setup({
+  ensure_installed = { "c", "lua", "rust", "ruby", "vim", "javascript", "typescript", "cpp" },
+  sync_install = false,
+  auto_install = true,
+  highlight = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
   textobjects = {
     select = {
       enable = true,
@@ -14,7 +23,7 @@ require("nvim-treesitter.configs").setup {
     },
     move = {
       enable = true,
-      set_jumps = false, -- whether to set jumps in the jumplist
+      set_jumps = false,
       goto_next_start = {
         ["]f"] = "@function.outer",
         ["]]"] = { query = "@class.outer", desc = "Next class start" },
@@ -33,4 +42,4 @@ require("nvim-treesitter.configs").setup {
       },
     },
   },
-}
+})

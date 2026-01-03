@@ -1,24 +1,3 @@
--- colortheme - gruvbox
-vim.o.termguicolors = true
-vim.cmd([[ colorscheme gruvbox ]])
-
--- status line - lualine
-require("lualine").setup({
-  options = {
-    icons_enabled = true,
-    theme = "gruvbox",
-  },
-  sections = {
-    lualine_a = {
-      {
-        "filename",
-        path = 1,
-      },
-    },
-  },
-})
-
--- transparent background
 require("transparent").setup({
   groups = {
     "Normal",
