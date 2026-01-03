@@ -1,0 +1,3 @@
+[submodule "nix-config"]
+	path = nix-config
+	url = https://github.com/H-DNA/nix-config
