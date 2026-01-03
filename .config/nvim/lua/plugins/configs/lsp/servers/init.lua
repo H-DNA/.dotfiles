@@ -11,6 +11,12 @@ local custom_servers = {
   "eslint",
   "ruff",
   "tinymist",
+  "nil_ls",
+}
+
+-- Servers installed via Nix (not Mason)
+local nix_servers = {
+  "nil_ls",
 }
 
 -- Check if server has custom config
@@ -23,7 +29,7 @@ local function has_custom_config(server)
   return false
 end
 
--- Setup all servers
+-- Setup Mason-managed servers
 for _, server in ipairs(mason.servers) do
   local config
 
@@ -36,5 +42,15 @@ for _, server in ipairs(mason.servers) do
     config = { capabilities = capabilities }
   end
 
+  lspconfig[server].setup(config)
+end
+
+-- Setup Nix-provided servers (not managed by Mason)
+for _, server in ipairs(nix_servers) do
+  local config = require("plugins.configs.lsp.servers." .. server)
+  if type(config) == "function" then
+    config = config()
+  end
+  config.capabilities = capabilities
   lspconfig[server].setup(config)
 end
