@@ -9,3 +9,4 @@
 	helper = !/run/current-system/sw/bin/gh auth git-credential
 [core]
 	editor = vim
+	excludesfile = ~/.gitignore_global

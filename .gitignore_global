@@ -1,0 +1,21 @@
+# Editor
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.sublime-workspace
+
+# Tags
+tags
+TAGS
+
+# AI
+plan.md
+plans/*
