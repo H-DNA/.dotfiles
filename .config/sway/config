@@ -40,7 +40,7 @@ exec_always gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Moder
 exec_always gsettings set org.gnome.desktop.interface cursor-size 24
 
 ### Appearance
-gaps inner 0
+gaps inner 2
 gaps outer 0
 
 # Smart gaps - disable gaps when only one window
@@ -71,6 +71,29 @@ client.focused #458588 #458588 #1d2021 #689d6a #458588
 client.unfocused #3c3836 #1d2021 #928374 #3c3836 #3c3836
 client.focused_inactive #504945 #1d2021 #ebdbb2 #504945 #504945
 client.urgent #cc241d #cc241d #ebdbb2 #cc241d #cc241d
+
+### Swayfx visual effects
+# Rounded corners
+corner_radius 8
+
+# Blur
+blur enable
+blur_passes 2
+blur_radius 5
+
+# Shadows
+shadows on
+shadow_blur_radius 20
+shadow_color #1d202180
+
+# Dim unfocused windows (15% dimming)
+dim_inactive 0.15
+dim_inactive_colors.unfocused #1d2021FF
+
+# Layer effects
+layer_effects "waybar" shadows enable
+layer_effects "wofi" blur enable; corner_radius 8
+layer_effects "swaync-control-center" blur enable; corner_radius 8
 
 ### Input configuration
 input * {

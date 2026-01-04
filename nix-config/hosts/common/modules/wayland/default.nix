@@ -1,8 +1,11 @@
 { pkgs, ... }:
 
 {
-  # Window system
-  programs.sway.enable = true;
+  # Window system (swayfx for blur, rounded corners, shadows)
+  programs.sway = {
+    enable = true;
+    package = pkgs.swayfx;
+  };
   xdg.portal.wlr.enable = true;
 
   # Cursor theme (fixes disappearing cursor in some web apps)

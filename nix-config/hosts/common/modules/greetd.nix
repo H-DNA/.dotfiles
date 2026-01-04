@@ -18,7 +18,7 @@ in
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-user-session --asterisks --asterisks-char '•' --greeting 'Welcome back!' --theme '${gruvboxTheme}' --cmd sway";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-user-session --asterisks --asterisks-char '•' --greeting 'Welcome back!' --theme '${gruvboxTheme}' --cmd ${pkgs.swayfx}/bin/sway";
         user = "greeter";
       };
     };
