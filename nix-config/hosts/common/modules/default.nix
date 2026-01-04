@@ -14,7 +14,7 @@
     ./keyboard.nix
     ./battery.nix
     ./clipboard.nix
-    ./greetd.nix
+    ./sddm.nix
     ./filebrowser.nix
   ];
 }
