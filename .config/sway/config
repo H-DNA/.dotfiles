@@ -33,8 +33,8 @@ seat seat0 xcursor_theme Adwaita 24
 exec_always gsettings set org.gnome.desktop.wm.preferences button-layout ''
 
 ### Appearance
-gaps inner 6
-gaps outer 2
+gaps inner 0
+gaps outer 0
 
 # Border style (pixel = no title bar, normal = with title bar)
 default_border pixel 2
