@@ -1,4 +1,11 @@
 require("gitsigns").setup({
+  current_line_blame = true,
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = "eol",
+    delay = 300,
+  },
+  current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
   on_attach = function(bufnr)
     local gitsigns = require("gitsigns")
 

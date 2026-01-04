@@ -37,6 +37,13 @@ return {
       { "]b", desc = "Next buffer" },
       { "]B", desc = "Last buffer" },
       { "<leader>g", group = "Git" },
+      { "<leader>gp", desc = "List PRs" },
+      { "<leader>gi", desc = "List issues" },
+      { "<leader>gr", desc = "Start review" },
+      { "<leader>gd", desc = "Diff view" },
+      { "<leader>gh", desc = "File history" },
+      { "<leader>gH", desc = "Branch history" },
+      { "<leader>gc", desc = "Close diff view" },
     },
   },
   keys = {
