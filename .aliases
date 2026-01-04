@@ -2,3 +2,24 @@ alias v=vim
 alias code=vim
 alias cat=bat
 alias cd=z
+
+# ls variants
+alias ll='ls -la'
+alias la='ls -A'
+alias l='ls -CF'
+
+# cd shortcuts
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Nix/NixOS
+alias rebuild='sudo nixos-rebuild switch --flake ~/nix-config'
+alias rebuild-test='sudo nixos-rebuild test --flake ~/nix-config'
+alias nix-gc='nix-collect-garbage -d && sudo nix-collect-garbage -d'
+alias nix-gc-old='sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo nix-collect-garbage -d'
+
+# Reload configs
+alias reload-tmux='tmux source-file ~/.tmux.conf && echo "tmux config reloaded"'
+alias reload-sway='swaymsg reload'
+alias reload-waybar='systemctl --user restart waybar'
+alias waybar-logs='journalctl --user -u waybar -f'

@@ -27,46 +27,12 @@
     };
   };
 
-  # Zsh configuration (user-level)
+  # Zsh configuration - all config managed in dotfiles/.zshrc.example
   programs.zsh = {
     enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    shellAliases = {
-      ll = "ls -la";
-      la = "ls -A";
-      l = "ls -CF";
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      g = "git";
-      gs = "git status";
-      gc = "git commit";
-      gp = "git push";
-      gl = "git pull";
-      gd = "git diff";
-      ga = "git add";
-      gco = "git checkout";
-      gb = "git branch";
-      vim = "nvim";
-      v = "nvim";
-    };
-
-    initContent = ''
-      # Initialize zoxide
-      eval "$(zoxide init zsh)"
-
-      # Initialize fzf
-      if [ -n "$(command -v fzf)" ]; then
-        source <(fzf --zsh)
-      fi
-    '';
-  };
-
-  # Starship prompt
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
+    enableCompletion = false;
+    autosuggestion.enable = false;
+    syntaxHighlighting.enable = false;
+    initContent = builtins.readFile ../../../.zshrc.example;
   };
 }
