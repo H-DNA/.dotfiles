@@ -19,6 +19,11 @@
 
   # Use smaller busybox-based initrd instead of systemd (saves ~40MB per generation)
   boot.initrd.systemd.enable = false;
+  boot.initrd.compressor = "zstd";
+  boot.initrd.compressorArgs = [ "-19" ];  # Max compression for small /boot
+
+  # Disable AMD GPU firmware in initrd (saves ~30MB, not needed for early boot)
+  hardware.amdgpu.initrd.enable = false;
 
   # Enable network manager
   networking.networkmanager.enable = true;
