@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+WALLPAPER_DIR="$HOME/.config/sway/nixdog/background"
+TRANSITION_TYPE="wipe"
+TRANSITION_DURATION=1
+
+case "$1" in
+  random)
+    img=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | shuf -n 1)
+    [ -n "$img" ] && swww img "$img" --transition-type "$TRANSITION_TYPE" --transition-duration "$TRANSITION_DURATION"
+    ;;
+  next)
+    current=$(swww query | grep -oP 'image: \K.*')
+    img=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | sort | grep -A1 "$current" | tail -n1)
+    [ -z "$img" ] && img=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.webp" \) | sort | head -n1)
+    [ -n "$img" ] && swww img "$img" --transition-type "$TRANSITION_TYPE" --transition-duration "$TRANSITION_DURATION"
+    ;;
+  *)
+    if [ -f "$1" ]; then
+      swww img "$1" --transition-type "$TRANSITION_TYPE" --transition-duration "$TRANSITION_DURATION"
+    else
+      echo "Usage: wallpaper [random|next|/path/to/image]"
+    fi
+    ;;
+esac

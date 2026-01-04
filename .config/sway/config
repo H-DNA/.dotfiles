@@ -22,7 +22,9 @@ set $menu wofi --show=drun
 
 ### Output configuration
 
-output * bg ~/.config/sway/nixdog/background/default.jpg fill
+# Wallpaper daemon
+exec swww-daemon
+exec swww img ~/.config/sway/nixdog/background/default.jpg
 
 ### Idle configuration
 #exec swayidle -w \
@@ -138,6 +140,8 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 # Special key to take a screenshot with grim
 bindsym Print exec grim - | wl-copy
+# Wallpaper controls
+bindsym $mod+b exec ~/.config/sway/scripts/wallpaper random
 
 # Status Bar
 bar swaybar_command waybar

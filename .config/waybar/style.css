@@ -124,70 +124,39 @@ tooltip label {
   margin-right: 4px;
 }
 
-/* Stats Group - Expandable on hover */
+/* Stats Group - Always expanded */
 #stats {
   margin: 2px 2px;
-  padding-left: 18px;
-  padding-right: 0px;
+  padding: 0;
   border-radius: 8px;
   background: @bg1;
 }
 
-/* Hide stats modules completely by default */
 #stats #cpu,
 #stats #memory,
 #stats #network {
-  font-size: 1px;
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-  border: none;
-  background: transparent;
-  color: transparent;
-  box-shadow: none;
-}
-
-#stats:hover {
-  background: @bg2;
-}
-
-#custom-stats-icon {
-  padding: 0 6px;
-  margin: 0;
-  color: @purple;
-  background: transparent;
-  border-radius: 8px;
-}
-
-
-/* Show on hover */
-#stats:hover #cpu,
-#stats:hover #memory,
-#stats:hover #network {
-  font-size: 12px;
   padding: 0 8px;
-  border-radius: 0;
   margin: 0;
+  background: transparent;
 }
 
-#stats:hover #cpu {
+#stats #cpu {
   color: @aqua;
 }
 
-#stats:hover #memory {
+#stats #memory {
   color: @yellow;
 }
 
-#stats:hover #network {
+#stats #network {
   color: @blue;
 }
 
-/* Hide stats text on hover */
-#stats:hover #custom-stats-icon {
-  font-size: 1px;
+#custom-stats-icon {
+  font-size: 0;
   padding: 0;
+  margin: 0;
   min-width: 0;
-  color: transparent;
 }
 
 /* Pulseaudio */

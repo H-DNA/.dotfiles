@@ -1,0 +1,65 @@
+# Gruvbox-themed swaylock config
+
+# Background
+image=~/.config/sway/nixdog/background/default.jpg
+scaling=fill
+color=1d2021
+
+# Ring indicator
+indicator
+indicator-radius=120
+indicator-thickness=10
+
+# Ring colors (Gruvbox)
+inside-color=1d202100
+ring-color=504945
+line-color=00000000
+separator-color=00000000
+
+# Key press
+key-hl-color=98971a
+bs-hl-color=cc241d
+
+# Caps lock
+indicator-caps-lock
+caps-lock-key-hl-color=d79921
+caps-lock-bs-hl-color=cc241d
+
+# Verifying state
+inside-ver-color=45858800
+ring-ver-color=458588
+line-ver-color=00000000
+text-ver-color=ebdbb2
+
+# Wrong password
+inside-wrong-color=cc241d00
+ring-wrong-color=cc241d
+line-wrong-color=00000000
+text-wrong-color=ebdbb2
+
+# Cleared state
+inside-clear-color=d7992100
+ring-clear-color=d79921
+line-clear-color=00000000
+text-clear-color=ebdbb2
+
+# Text
+text-color=ebdbb2
+font=JetBrainsMono Nerd Font
+font-size=24
+
+# Layout
+layout-text-color=928374
+layout-bg-color=00000000
+layout-border-color=00000000
+
+# Effects
+fade-in=0.2
+effect-blur=7x5
+effect-vignette=0.5:0.5
+
+# Misc
+ignore-empty-password
+disable-caps-lock-text
+show-failed-attempts
+daemonize
