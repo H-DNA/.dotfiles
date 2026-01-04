@@ -46,14 +46,14 @@
 
     # Document tools
     typst
-    obsidian
+    ## obsidian
 
     # Communication
     discord
     slack
 
     # Media
-    melonDS
+    ## melonDS
 
     # CLI tools
     lazygit
