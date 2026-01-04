@@ -10,11 +10,10 @@ RECORDING_PID_FILE="/tmp/wf-recorder.pid"
 # Ensure directories exist
 mkdir -p "$SCREENSHOT_DIR" "$RECORDING_DIR"
 
-# Check if currently recording
+# Check if currently recording - if so, stop it
 if [ -f "$RECORDING_PID_FILE" ]; then
     pid=$(cat "$RECORDING_PID_FILE")
     if kill -0 "$pid" 2>/dev/null; then
-        # Stop recording
         kill -SIGINT "$pid"
         rm -f "$RECORDING_PID_FILE"
         notify-send "Recording stopped" "Video saved to $RECORDING_DIR"
@@ -24,36 +23,208 @@ if [ -f "$RECORDING_PID_FILE" ]; then
     fi
 fi
 
-# Select region with slurp
-geometry=$(slurp 2>/dev/null)
-[ -z "$geometry" ] && exit 0
+# Get list of outputs with their geometry
+get_outputs() {
+    swaymsg -t get_outputs | jq -r '.[] | select(.active) | "\(.name) (\(.current_mode.width)x\(.current_mode.height))"'
+}
 
-# Show menu to choose action
-action=$(printf "Screenshot (clipboard)\nScreenshot (save)\nRecord video\nRecord video (with audio)" | wofi --dmenu --prompt "Capture" --width 300 --height 200)
-[ -z "$action" ] && exit 0
+# Get geometry of a specific output
+get_output_geometry() {
+    local output_name="$1"
+    swaymsg -t get_outputs | jq -r ".[] | select(.name == \"$output_name\") | \"\(.rect.x),\(.rect.y) \(.rect.width)x\(.rect.height)\""
+}
 
-timestamp=$(date +%Y%m%d-%H%M%S)
+# Get focused output name
+get_focused_output() {
+    swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name'
+}
 
-case "$action" in
-    "Screenshot (clipboard)")
+# Get list of workspaces
+get_workspaces() {
+    swaymsg -t get_workspaces | jq -r '.[] | "\(.name) on \(.output)"'
+}
+
+# Get geometry of a workspace by name
+get_workspace_geometry() {
+    local ws_name="$1"
+    swaymsg -t get_workspaces | jq -r ".[] | select(.name == \"$ws_name\") | \"\(.rect.x),\(.rect.y) \(.rect.width)x\(.rect.height)\""
+}
+
+# Screenshot a region (used for multiple captures)
+screenshot_region() {
+    local geometry="$1"
+    local to_clipboard="$2"
+    local timestamp=$(date +%Y%m%d-%H%M%S)
+
+    if [ "$to_clipboard" = "true" ]; then
         grim -g "$geometry" - | wl-copy
         notify-send "Screenshot copied" "Region captured to clipboard"
-        ;;
-    "Screenshot (save)")
-        filename="$SCREENSHOT_DIR/screenshot-$timestamp.png"
+    else
+        local filename="$SCREENSHOT_DIR/screenshot-$timestamp.png"
         grim -g "$geometry" "$filename"
         wl-copy < "$filename"
         notify-send "Screenshot saved" "$filename"
+    fi
+}
+
+# Screenshot full output
+screenshot_output() {
+    local output="$1"
+    local to_clipboard="$2"
+    local timestamp=$(date +%Y%m%d-%H%M%S)
+
+    if [ "$to_clipboard" = "true" ]; then
+        grim -o "$output" - | wl-copy
+        notify-send "Screenshot copied" "Output $output captured to clipboard"
+    else
+        local filename="$SCREENSHOT_DIR/screenshot-$timestamp.png"
+        grim -o "$output" "$filename"
+        wl-copy < "$filename"
+        notify-send "Screenshot saved" "$filename"
+    fi
+}
+
+# Main menu
+main_menu() {
+    printf "Full screen (focused output)\nSelect output/monitor\nSelect workspace\nSelect region (multiple)\nRecord video\nRecord video (with audio)"
+}
+
+# Destination menu
+destination_menu() {
+    printf "Save to file (and clipboard)\nClipboard only"
+}
+
+# Main action selection
+action=$(main_menu | wofi --dmenu --prompt "Capture mode" --width 350 --height 280)
+[ -z "$action" ] && exit 0
+
+case "$action" in
+    "Full screen (focused output)")
+        dest=$(destination_menu | wofi --dmenu --prompt "Save to" --width 300 --height 120)
+        [ -z "$dest" ] && exit 0
+
+        output=$(get_focused_output)
+        if [ "$dest" = "Clipboard only" ]; then
+            screenshot_output "$output" "true"
+        else
+            screenshot_output "$output" "false"
+        fi
         ;;
+
+    "Select output/monitor")
+        output_choice=$(get_outputs | wofi --dmenu --prompt "Select output" --width 400 --height 200)
+        [ -z "$output_choice" ] && exit 0
+
+        # Extract output name (first word before the space)
+        output_name=$(echo "$output_choice" | awk '{print $1}')
+
+        dest=$(destination_menu | wofi --dmenu --prompt "Save to" --width 300 --height 120)
+        [ -z "$dest" ] && exit 0
+
+        if [ "$dest" = "Clipboard only" ]; then
+            screenshot_output "$output_name" "true"
+        else
+            screenshot_output "$output_name" "false"
+        fi
+        ;;
+
+    "Select workspace")
+        ws_choice=$(get_workspaces | wofi --dmenu --prompt "Select workspace" --width 400 --height 300)
+        [ -z "$ws_choice" ] && exit 0
+
+        # Extract workspace name (everything before " on ")
+        ws_name=$(echo "$ws_choice" | sed 's/ on .*//')
+        geometry=$(get_workspace_geometry "$ws_name")
+
+        dest=$(destination_menu | wofi --dmenu --prompt "Save to" --width 300 --height 120)
+        [ -z "$dest" ] && exit 0
+
+        if [ "$dest" = "Clipboard only" ]; then
+            screenshot_region "$geometry" "true"
+        else
+            screenshot_region "$geometry" "false"
+        fi
+        ;;
+
+    "Select region (multiple)")
+        dest=$(destination_menu | wofi --dmenu --prompt "Save to" --width 300 --height 120)
+        [ -z "$dest" ] && exit 0
+
+        to_clipboard="false"
+        [ "$dest" = "Clipboard only" ] && to_clipboard="true"
+
+        # Loop for multiple region captures
+        count=0
+        while true; do
+            geometry=$(slurp 2>/dev/null)
+            # Exit loop if user cancels (presses Escape or right-click)
+            [ -z "$geometry" ] && break
+
+            screenshot_region "$geometry" "$to_clipboard"
+            count=$((count + 1))
+        done
+
+        if [ $count -gt 0 ]; then
+            notify-send "Capture complete" "Captured $count region(s)"
+        fi
+        ;;
+
     "Record video")
+        # Select capture source
+        source=$(printf "Full screen (focused output)\nSelect output/monitor\nSelect region" | wofi --dmenu --prompt "Record source" --width 350 --height 150)
+        [ -z "$source" ] && exit 0
+
+        timestamp=$(date +%Y%m%d-%H%M%S)
         filename="$RECORDING_DIR/recording-$timestamp.mp4"
-        wf-recorder -g "$geometry" -f "$filename" &
+
+        case "$source" in
+            "Full screen (focused output)")
+                output=$(get_focused_output)
+                wf-recorder -o "$output" -f "$filename" &
+                ;;
+            "Select output/monitor")
+                output_choice=$(get_outputs | wofi --dmenu --prompt "Select output" --width 400 --height 200)
+                [ -z "$output_choice" ] && exit 0
+                output_name=$(echo "$output_choice" | awk '{print $1}')
+                wf-recorder -o "$output_name" -f "$filename" &
+                ;;
+            "Select region")
+                geometry=$(slurp 2>/dev/null)
+                [ -z "$geometry" ] && exit 0
+                wf-recorder -g "$geometry" -f "$filename" &
+                ;;
+        esac
+
         echo $! > "$RECORDING_PID_FILE"
         notify-send "Recording started" "Press PrtScr again to stop"
         ;;
+
     "Record video (with audio)")
+        # Select capture source
+        source=$(printf "Full screen (focused output)\nSelect output/monitor\nSelect region" | wofi --dmenu --prompt "Record source" --width 350 --height 150)
+        [ -z "$source" ] && exit 0
+
+        timestamp=$(date +%Y%m%d-%H%M%S)
         filename="$RECORDING_DIR/recording-$timestamp.mp4"
-        wf-recorder -g "$geometry" -f "$filename" --audio &
+
+        case "$source" in
+            "Full screen (focused output)")
+                output=$(get_focused_output)
+                wf-recorder -o "$output" -f "$filename" --audio &
+                ;;
+            "Select output/monitor")
+                output_choice=$(get_outputs | wofi --dmenu --prompt "Select output" --width 400 --height 200)
+                [ -z "$output_choice" ] && exit 0
+                output_name=$(echo "$output_choice" | awk '{print $1}')
+                wf-recorder -o "$output_name" -f "$filename" --audio &
+                ;;
+            "Select region")
+                geometry=$(slurp 2>/dev/null)
+                [ -z "$geometry" ] && exit 0
+                wf-recorder -g "$geometry" -f "$filename" --audio &
+                ;;
+        esac
+
         echo $! > "$RECORDING_PID_FILE"
         notify-send "Recording started" "Press PrtScr again to stop"
         ;;

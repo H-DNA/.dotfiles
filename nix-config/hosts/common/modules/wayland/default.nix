@@ -26,6 +26,10 @@
     slurp
     wl-clipboard
     wf-recorder
+    libnotify
+
+    # Widgets
+    eww
 
     # System controls
     brightnessctl

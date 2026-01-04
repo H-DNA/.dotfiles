@@ -1,0 +1,275 @@
+#!/usr/bin/env bash
+
+# Capture script for eww toolbar
+# Dependencies: grim, slurp, wl-clipboard, wf-recorder, jq, swaymsg
+
+MEDIA_DIR="$HOME/Media"
+SCREENSHOT_DIR="$MEDIA_DIR/screenshots"
+RECORDING_DIR="$MEDIA_DIR/recordings"
+RECORDING_PID_FILE="/tmp/wf-recorder.pid"
+RECORDING_START_FILE="/tmp/wf-recorder-start"
+RECORDING_PAUSED_FILE="/tmp/wf-recorder-paused"
+RECORDING_SEGMENTS_DIR="/tmp/wf-recorder-segments"
+RECORDING_GEOMETRY_FILE="/tmp/wf-recorder-geometry"
+RECORDING_OUTPUT_FILE="/tmp/wf-recorder-output"
+
+mkdir -p "$SCREENSHOT_DIR" "$RECORDING_DIR"
+
+get_focused_output() {
+    local output
+    output=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name' | head -1)
+    if [ -z "$output" ]; then
+        output=$(swaymsg -t get_outputs | jq -r '.[] | select(.active) | .name' | head -1)
+    fi
+    echo "$output"
+}
+
+notify_with_image() {
+    local abs_path
+    abs_path=$(realpath "$3")
+    notify-send -a "Capture" "$1" "$2" --hint=string:image-path:"$abs_path"
+}
+
+notify_recording() {
+    notify-send -a "Capture" "$1" "$2" -i camera-video
+}
+
+timestamp() {
+    date +%Y%m%d-%H%M%S
+}
+
+# Check if geometry is a point click (very small selection)
+is_point_click() {
+    local geom="$1"
+    # Extract width and height from "x,y widthxheight" format
+    local dimensions="${geom#* }"
+    local width="${dimensions%x*}"
+    local height="${dimensions#*x}"
+
+    # Validate we got numbers
+    [[ "$width" =~ ^[0-9]+$ ]] || return 1
+    [[ "$height" =~ ^[0-9]+$ ]] || return 1
+
+    # If width or height is less than 100, consider it a click (fullscreen intent)
+    [ "$width" -lt 100 ] || [ "$height" -lt 100 ]
+}
+
+case "$1" in
+    screenshot)
+        sleep 0.1
+        geometry=$(slurp 2>/dev/null)
+
+        filename="$SCREENSHOT_DIR/screenshot-$(timestamp).png"
+
+        if [ -z "$geometry" ]; then
+            # Click/cancel = fullscreen capture
+            output=$(get_focused_output)
+            grim -o "$output" "$filename"
+        elif is_point_click "$geometry"; then
+            # Very small drag = fullscreen capture
+            output=$(get_focused_output)
+            grim -o "$output" "$filename"
+        else
+            # Drag = region capture
+            grim -g "$geometry" "$filename"
+        fi
+
+        sleep 0.1
+        wl-copy < "$filename"
+        notify_with_image "Screenshot saved" "$filename" "$filename"
+        ;;
+
+    record)
+        sleep 0.1
+        record_audio="$2"
+        record_voice="$3"
+
+        geometry=$(slurp 2>/dev/null)
+
+        # Setup segments directory
+        rm -rf "$RECORDING_SEGMENTS_DIR"
+        mkdir -p "$RECORDING_SEGMENTS_DIR"
+
+        segment="$RECORDING_SEGMENTS_DIR/segment-001.mp4"
+        date +%s > "$RECORDING_START_FILE"
+        echo "1" > "$RECORDING_SEGMENTS_DIR/count"
+
+        # Build audio arguments
+        default_sink=$(pactl get-default-sink).monitor
+        default_source=$(pactl get-default-source)
+
+        audio_args=""
+        if [ "$record_audio" = "true" ] && [ "$record_voice" = "true" ]; then
+            audio_args="--audio=$default_sink --audio=$default_source"
+            echo "both" > /tmp/wf-recorder-audio
+        elif [ "$record_audio" = "true" ]; then
+            audio_args="--audio=$default_sink"
+            echo "audio" > /tmp/wf-recorder-audio
+        elif [ "$record_voice" = "true" ]; then
+            audio_args="--audio=$default_source"
+            echo "voice" > /tmp/wf-recorder-audio
+        else
+            echo "none" > /tmp/wf-recorder-audio
+        fi
+
+        # Save audio args for resume
+        echo "$audio_args" > /tmp/wf-recorder-audio-args
+
+        # Determine if fullscreen or region
+        if [ -z "$geometry" ] || is_point_click "$geometry"; then
+            # Click/cancel/small drag = fullscreen record
+            output=$(get_focused_output)
+            echo "$output" > "$RECORDING_OUTPUT_FILE"
+            echo "" > "$RECORDING_GEOMETRY_FILE"
+            if [ -n "$audio_args" ]; then
+                wf-recorder -o "$output" -f "$segment" $audio_args &
+            else
+                wf-recorder -o "$output" -f "$segment" &
+            fi
+        else
+            # Drag = region record
+            echo "" > "$RECORDING_OUTPUT_FILE"
+            echo "$geometry" > "$RECORDING_GEOMETRY_FILE"
+            if [ -n "$audio_args" ]; then
+                wf-recorder -g "$geometry" -f "$segment" $audio_args &
+            else
+                wf-recorder -g "$geometry" -f "$segment" &
+            fi
+        fi
+
+        echo $! > "$RECORDING_PID_FILE"
+        ;;
+
+    stop-recording)
+        audio_mode=$(cat /tmp/wf-recorder-audio 2>/dev/null)
+
+        # Kill recording if running
+        if [ -f "$RECORDING_PID_FILE" ]; then
+            pid=$(cat "$RECORDING_PID_FILE")
+            kill -SIGINT "$pid" 2>/dev/null
+        fi
+        pkill -SIGINT wf-recorder 2>/dev/null
+
+        # Clean up PID immediately so waybar updates
+        rm -f "$RECORDING_PID_FILE" "$RECORDING_PAUSED_FILE"
+
+        # Concatenate segments and notify in background
+        (
+            sleep 0.5  # Wait for last segment to finalize
+
+            if [ "$audio_mode" = "voice-only" ]; then
+                latest=$(ls -t "$MEDIA_DIR/voice"/voice-*.mp3 2>/dev/null | head -1)
+                [ -n "$latest" ] && notify-send -a "Capture" "Voice saved" "$latest" -i audio-input-microphone
+            else
+                # Check if we have multiple segments to concat
+                segment_count=$(cat "$RECORDING_SEGMENTS_DIR/count" 2>/dev/null || echo 1)
+                final_file="$RECORDING_DIR/recording-$(date +%Y%m%d-%H%M%S).mp4"
+
+                if [ "$segment_count" -gt 1 ]; then
+                    # Create concat list
+                    concat_list="$RECORDING_SEGMENTS_DIR/concat.txt"
+                    > "$concat_list"
+                    for seg in "$RECORDING_SEGMENTS_DIR"/segment-*.mp4; do
+                        [ -f "$seg" ] && echo "file '$seg'" >> "$concat_list"
+                    done
+
+                    # Concatenate segments
+                    ffmpeg -y -f concat -safe 0 -i "$concat_list" -c copy "$final_file" 2>/dev/null
+                else
+                    # Just move the single segment
+                    mv "$RECORDING_SEGMENTS_DIR/segment-001.mp4" "$final_file" 2>/dev/null
+                fi
+
+                if [ -f "$final_file" ]; then
+                    thumb="/tmp/rec-thumb-$$.png"
+                    timeout 2 ffmpeg -y -i "$final_file" -ss 00:00:01 -vframes 1 -q:v 2 "$thumb" 2>/dev/null
+                    if [ -f "$thumb" ] && [ -s "$thumb" ]; then
+                        notify-send -a "Capture" "Recording saved" "$final_file" --hint=string:image-path:"$thumb"
+                        sleep 10 && rm -f "$thumb"
+                    else
+                        notify-send -a "Capture" "Recording saved" "$final_file" -i camera-video
+                    fi
+                fi
+            fi
+
+            # Clean up
+            rm -rf "$RECORDING_SEGMENTS_DIR" "$RECORDING_START_FILE" /tmp/wf-recorder-audio /tmp/wf-recorder-audio-args /tmp/wf-recorder-paused-total "$RECORDING_GEOMETRY_FILE" "$RECORDING_OUTPUT_FILE"
+        ) &
+
+        exit 0
+        ;;
+
+    pause-recording)
+        audio_mode=$(cat /tmp/wf-recorder-audio 2>/dev/null)
+        pid=""
+        [ -f "$RECORDING_PID_FILE" ] && pid=$(cat "$RECORDING_PID_FILE")
+
+        # Check if we're resuming from paused state
+        if [ -f "$RECORDING_PAUSED_FILE" ]; then
+            # Resume recording
+            pause_start=$(cat "$RECORDING_PAUSED_FILE")
+            now=$(date +%s)
+            paused_duration=$((now - pause_start))
+            prev_paused=$(cat /tmp/wf-recorder-paused-total 2>/dev/null || echo 0)
+            echo $((prev_paused + paused_duration)) > /tmp/wf-recorder-paused-total
+
+            if [ "$audio_mode" = "voice-only" ]; then
+                # Voice: just resume with SIGCONT
+                [ -n "$pid" ] && kill -CONT "$pid" 2>/dev/null
+            else
+                # Video: start new segment
+                count=$(cat "$RECORDING_SEGMENTS_DIR/count" 2>/dev/null || echo 1)
+                count=$((count + 1))
+                echo "$count" > "$RECORDING_SEGMENTS_DIR/count"
+                segment=$(printf "$RECORDING_SEGMENTS_DIR/segment-%03d.mp4" "$count")
+
+                audio_args=$(cat /tmp/wf-recorder-audio-args 2>/dev/null)
+                output=$(cat "$RECORDING_OUTPUT_FILE" 2>/dev/null)
+                geometry=$(cat "$RECORDING_GEOMETRY_FILE" 2>/dev/null)
+
+                if [ -n "$output" ]; then
+                    if [ -n "$audio_args" ]; then
+                        wf-recorder -o "$output" -f "$segment" $audio_args &
+                    else
+                        wf-recorder -o "$output" -f "$segment" &
+                    fi
+                else
+                    if [ -n "$audio_args" ]; then
+                        wf-recorder -g "$geometry" -f "$segment" $audio_args &
+                    else
+                        wf-recorder -g "$geometry" -f "$segment" &
+                    fi
+                fi
+                echo $! > "$RECORDING_PID_FILE"
+            fi
+            rm -f "$RECORDING_PAUSED_FILE"
+        else
+            # Pause recording
+            if [ "$audio_mode" = "voice-only" ]; then
+                # Voice: use SIGSTOP
+                [ -n "$pid" ] && kill -STOP "$pid" 2>/dev/null
+            else
+                # Video: stop current segment
+                [ -n "$pid" ] && kill -SIGINT "$pid" 2>/dev/null
+                rm -f "$RECORDING_PID_FILE"
+            fi
+            date +%s > "$RECORDING_PAUSED_FILE"
+        fi
+        exit 0
+        ;;
+
+    voice)
+        # Voice-only recording (no video)
+        VOICE_DIR="$MEDIA_DIR/voice"
+        mkdir -p "$VOICE_DIR"
+
+        filename="$VOICE_DIR/voice-$(timestamp).mp3"
+        date +%s > "$RECORDING_START_FILE"
+        echo "voice-only" > /tmp/wf-recorder-audio
+
+        # Record from default microphone using ffmpeg
+        default_source=$(pactl get-default-source)
+        ffmpeg -f pulse -i "$default_source" -codec:a libmp3lame -q:a 2 "$filename" &
+        echo $! > "$RECORDING_PID_FILE"
+        ;;
+esac

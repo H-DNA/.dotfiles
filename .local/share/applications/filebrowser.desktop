@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=File Browser
+Comment=Open in File Browser web UI
+Exec=/home/huydna/.config/scripts/open-in-filebrowser %f
+Icon=folder
+Terminal=false
+Type=Application
+Categories=Utility;FileManager;
+MimeType=inode/directory;

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Opens a file or directory in File Browser (web UI)
+# Secret baseURL protects against CSRF from malicious websites
+
+SECRET=$(cat /var/lib/filebrowser/secret 2>/dev/null)
+FILEBROWSER_URL="http://localhost:41819/$SECRET"
+
+if [ -z "$1" ]; then
+    # No argument - open home
+    firefox "$FILEBROWSER_URL/files/"
+elif [ -d "$1" ]; then
+    # Directory - open that folder
+    path=$(realpath "$1")
+    # Remove /home/huydna prefix since that's the root
+    relative="${path#/home/huydna}"
+    firefox "$FILEBROWSER_URL/files$relative"
+else
+    # File - open containing folder
+    dir=$(dirname "$(realpath "$1")")
+    relative="${dir#/home/huydna}"
+    firefox "$FILEBROWSER_URL/files$relative"
+fi

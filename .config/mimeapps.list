@@ -1,0 +1,67 @@
+[Default Applications]
+# Images - open in File Browser for management
+image/png=filebrowser.desktop
+image/jpeg=filebrowser.desktop
+image/jpg=filebrowser.desktop
+image/gif=filebrowser.desktop
+image/webp=filebrowser.desktop
+image/svg+xml=filebrowser.desktop
+image/bmp=filebrowser.desktop
+image/tiff=filebrowser.desktop
+image/x-icon=filebrowser.desktop
+
+# Text and code
+text/plain=firefox.desktop
+text/html=firefox.desktop
+text/css=firefox.desktop
+text/javascript=firefox.desktop
+text/markdown=firefox.desktop
+text/x-python=firefox.desktop
+text/x-shellscript=firefox.desktop
+text/x-c=firefox.desktop
+text/x-c++=firefox.desktop
+text/x-java=firefox.desktop
+text/x-rust=firefox.desktop
+text/x-go=firefox.desktop
+text/xml=firefox.desktop
+
+# Data formats
+application/json=firefox.desktop
+application/xml=firefox.desktop
+application/javascript=firefox.desktop
+application/x-yaml=firefox.desktop
+application/toml=firefox.desktop
+
+# PDF
+application/pdf=firefox.desktop
+
+# Video - open in File Browser for management
+video/mp4=filebrowser.desktop
+video/webm=filebrowser.desktop
+video/x-matroska=filebrowser.desktop
+
+# Audio - open in File Browser for management
+audio/mpeg=filebrowser.desktop
+audio/mp3=filebrowser.desktop
+audio/ogg=filebrowser.desktop
+
+# Directories
+inode/directory=filebrowser.desktop
+x-scheme-handler/file=filebrowser.desktop
+
+# Web
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
+
+[Added Associations]
+image/png=firefox.desktop
+image/jpeg=firefox.desktop
+image/gif=firefox.desktop
+image/webp=firefox.desktop
+image/svg+xml=firefox.desktop
+text/plain=firefox.desktop
+text/html=firefox.desktop
+application/json=firefox.desktop
+application/pdf=firefox.desktop

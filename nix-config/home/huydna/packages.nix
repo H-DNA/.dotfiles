@@ -58,6 +58,8 @@
     # CLI tools
     lazygit
     tree
+    jq
+    ffmpeg
 
     # Security
     _1password-gui

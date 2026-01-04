@@ -9,6 +9,9 @@ font pango:"JetBrainsMono Nerd Font" Regular 11
 ### Input method
 exec fcitx5
 
+### File Browser bookmark redirect
+exec ~/.config/scripts/update-filebrowser-bookmark
+
 ### Variables
 set $mod Mod4
 
@@ -190,6 +193,16 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+# Capture toolbar mode
+mode "capture" {
+  bindsym Escape exec eww close capture-toolbar; mode "default"
+  bindsym Print exec eww close capture-toolbar; mode "default"
+  bindsym $mod+Shift+p exec eww close capture-toolbar; mode "default"
+}
+
+# Close capture toolbar when it loses focus
+for_window [app_id="eww"] floating enable
+
 ### Utilities
 # Special keys to adjust volume via PulseAudio
 bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
@@ -199,8 +212,9 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ t
 # Special keys to adjust brightness via brightnessctl
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-# Screenshot & recording (PrtScr to select region, then choose action)
-bindsym Print exec ~/.config/sway/scripts/capture
+# Screenshot & recording (PrtScr opens capture toolbar)
+bindsym Print exec ~/.config/sway/scripts/capture-toolbar
+bindsym $mod+Shift+p exec ~/.config/sway/scripts/capture-toolbar
 # Wallpaper controls
 bindsym $mod+Shift+w exec ~/.config/sway/scripts/wallpaper random
 # Lock screen

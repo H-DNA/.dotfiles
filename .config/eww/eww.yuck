@@ -1,0 +1,187 @@
+; Capture toolbar widget for screenshots and screen recording
+
+; Audio recording options (persisted in /tmp)
+(defvar record-audio true)
+(defvar record-voice false)
+
+; Check recording state
+(defpoll recording-active :interval "500ms"
+  `[ -f /tmp/wf-recorder.pid ] && kill -0 $(cat /tmp/wf-recorder.pid 2>/dev/null) 2>/dev/null && echo "true" || echo "false"`)
+
+(defpoll recording-time :interval "1s"
+  `if [ -f /tmp/wf-recorder-start ]; then
+    start=$(cat /tmp/wf-recorder-start)
+    now=$(date +%s)
+    elapsed=$((now - start))
+    printf "%02d:%02d" $((elapsed / 60)) $((elapsed % 60))
+  else
+    echo "00:00"
+  fi`)
+
+; Button widget for capture actions
+(defwidget capture-btn [icon label action tooltip ?class]
+  (button
+    :class "capture-btn ${class}"
+    :tooltip tooltip
+    :onclick "${action} & eww close capture-toolbar && swaymsg mode default"
+    (box
+      :orientation "v"
+      :space-evenly false
+      :spacing 4
+      (label :class "btn-icon" :text icon)
+      (label :class "btn-label" :text label))))
+
+; Screenshot section
+(defwidget screenshot-section []
+  (box
+    :class "section"
+    :orientation "h"
+    :space-evenly false
+    :spacing 0
+    (capture-btn
+      :icon "󰄀"
+      :label "Capture"
+      :tooltip "Screenshot (drag region or click for fullscreen)"
+      :action "~/.config/eww/scripts/capture screenshot")))
+
+; Audio toggle widget
+(defwidget audio-toggle [icon label var tooltip]
+  (button
+    :class "audio-toggle ${var ? 'active' : ''}"
+    :tooltip tooltip
+    :onclick "${var ? 'eww update ${label}=false' : 'eww update ${label}=true'}"
+    (label :class "toggle-icon" :text icon)))
+
+; Recording section - shows record button OR stop button based on state
+(defwidget recording-section []
+  (box
+    :class "section"
+    :orientation "h"
+    :space-evenly false
+    :spacing 0
+    ; Show record options when not recording
+    (box
+      :visible {recording-active == "false"}
+      :orientation "h"
+      :space-evenly false
+      :spacing 4
+      ; Audio toggles
+      (box
+        :class "audio-toggles"
+        :orientation "v"
+        :space-evenly false
+        :spacing 2
+        (audio-toggle
+          :icon "󰕾"
+          :label "record-audio"
+          :var record-audio
+          :tooltip "System audio ${record-audio ? '(on)' : '(off)'}")
+        (audio-toggle
+          :icon "󰍬"
+          :label "record-voice"
+          :var record-voice
+          :tooltip "Microphone ${record-voice ? '(on)' : '(off)'}"))
+      ; Record button (screen)
+      (button
+        :class "capture-btn record-btn"
+        :tooltip "Screen record (drag region or click for fullscreen)"
+        :onclick "~/.config/eww/scripts/capture record ${record-audio} ${record-voice} & eww close capture-toolbar && swaymsg mode default"
+        (box
+          :orientation "v"
+          :space-evenly false
+          :spacing 4
+          (label :class "btn-icon" :text "󰑊")
+          (label :class "btn-label" :text "Screen")))
+      (box :class "separator")
+      ; Voice button (audio only)
+      (button
+        :class "capture-btn voice-btn"
+        :tooltip "Voice recording (audio only)"
+        :onclick "~/.config/eww/scripts/capture voice & eww close capture-toolbar && swaymsg mode default"
+        (box
+          :orientation "v"
+          :space-evenly false
+          :spacing 4
+          (label :class "btn-icon" :text "󰍬")
+          (label :class "btn-label" :text "Voice"))))
+    ; Show stop button and timer when recording
+    (box
+      :visible {recording-active == "true"}
+      :class "recording-active"
+      :orientation "h"
+      :space-evenly false
+      :spacing 8
+      (box
+        :class "recording-status"
+        :orientation "h"
+        :space-evenly false
+        :spacing 8
+        (label :class "recording-dot" :text "󰑊")
+        (label :class "recording-label" :text "REC")
+        (label :class "recording-time" :text recording-time))
+      (button
+        :class "capture-btn stop-btn"
+        :tooltip "Stop recording"
+        :onclick "~/.config/eww/scripts/capture stop-recording & eww close capture-toolbar && swaymsg mode default"
+        (box
+          :orientation "v"
+          :space-evenly false
+          :spacing 4
+          (label :class "btn-icon" :text "󰓛")
+          (label :class "btn-label" :text "Stop"))))))
+
+; Folder button
+(defwidget folder-section []
+  (box
+    :class "section"
+    :orientation "h"
+    :space-evenly false
+    :spacing 0
+    (capture-btn
+      :icon "󰉋"
+      :label "Media"
+      :tooltip "Open media folder"
+      :class "folder-btn"
+      :action "mkdir -p $HOME/Media && firefox file://$HOME/Media")))
+
+; Close button
+(defwidget close-section []
+  (box
+    :class "section"
+    :orientation "h"
+    (button
+      :class "capture-btn close-btn"
+      :tooltip "Close toolbar (Esc)"
+      :onclick "eww close capture-toolbar && swaymsg mode default"
+      (box
+        :orientation "v"
+        :space-evenly false
+        :spacing 4
+        (label :class "btn-icon" :text "󰅖")
+        (label :class "btn-label" :text "Close")))))
+
+; Main toolbar
+(defwidget capture-toolbar []
+  (box
+    :class "capture-toolbar"
+    :orientation "h"
+    :space-evenly false
+    :spacing 0
+    (screenshot-section)
+    (box :class "separator")
+    (recording-section)
+    (box :class "separator")
+    (folder-section)
+    (close-section)))
+
+(defwindow capture-toolbar
+  :monitor 0
+  :geometry (geometry
+    :x "0%"
+    :y "20px"
+    :anchor "top center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable true
+  :windowtype "dialog"
+  (capture-toolbar))

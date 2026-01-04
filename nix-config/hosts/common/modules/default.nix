@@ -1,6 +1,6 @@
 { pkgs, ... }:
 
-{ 
+{
   imports = [
     ./users
     ./fonts
@@ -14,5 +14,7 @@
     ./keyboard.nix
     ./battery.nix
     ./clipboard.nix
+    ./greetd.nix
+    ./filebrowser.nix
   ];
 }

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Simple WiFi menu using wofi and nmcli
 
 current=$(nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2)

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Capture toolbar launcher - uses eww
+# Dependencies: eww, grim, slurp, wl-clipboard, wf-recorder, wofi, jq
+
+RECORDING_PID_FILE="/tmp/wf-recorder.pid"
+
+# Check if recording is in progress - if so, stop it
+if [ -f "$RECORDING_PID_FILE" ]; then
+    pid=$(cat "$RECORDING_PID_FILE")
+    if kill -0 "$pid" 2>/dev/null; then
+        ~/.config/eww/scripts/capture stop-recording
+        exit 0
+    fi
+    rm -f "$RECORDING_PID_FILE"
+fi
+
+# Toggle capture toolbar
+if eww active-windows | grep -q "capture-toolbar"; then
+    eww close capture-toolbar
+    swaymsg mode default
+else
+    eww open capture-toolbar
+    swaymsg mode capture
+fi

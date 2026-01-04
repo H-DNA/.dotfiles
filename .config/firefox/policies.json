@@ -1,0 +1,11 @@
+{
+  "policies": {
+    "ManagedBookmarks": [
+      { "toplevel_name": "Tools" },
+      {
+        "name": "File Browser",
+        "url": "file:///home/huydna/.config/filebrowser.html"
+      }
+    ]
+  }
+}

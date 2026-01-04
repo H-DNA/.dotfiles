@@ -12,6 +12,9 @@
     "sway/window"
   ],
   "modules-right": [
+    "custom/recording",
+    "custom/recording-pause",
+    "custom/mic",
     "group/stats",
     "pulseaudio",
     "backlight",
@@ -152,6 +155,32 @@
     "on-click": "~/.config/waybar/scripts/volume-menu.sh",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-middle": "pwvucontrol"
+  },
+  "custom/recording": {
+    "format": "{}",
+    "return-type": "json",
+    "interval": 1,
+    "exec": "/home/huydna/.config/waybar/scripts/recording-status.sh",
+    "exec-if": "[ -f /tmp/wf-recorder.pid ] || [ -f /tmp/wf-recorder-paused ]",
+    "on-click": "/home/huydna/.config/eww/scripts/capture stop-recording",
+    "tooltip": true
+  },
+  "custom/recording-pause": {
+    "format": "{}",
+    "return-type": "json",
+    "interval": 1,
+    "exec": "/home/huydna/.config/waybar/scripts/recording-pause.sh",
+    "exec-if": "[ -f /tmp/wf-recorder.pid ] || [ -f /tmp/wf-recorder-paused ]",
+    "on-click": "/home/huydna/.config/eww/scripts/capture pause-recording",
+    "tooltip": true
+  },
+  "custom/mic": {
+    "format": "{}",
+    "return-type": "json",
+    "interval": 1,
+    "exec": "/home/huydna/.config/waybar/scripts/mic-status.sh",
+    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "tooltip": true
   },
   "custom/notification": {
     "tooltip": false,

@@ -35,4 +35,21 @@
     syntaxHighlighting.enable = false;
     initContent = builtins.readFile ../../../.zshrc.example;
   };
+
+  # XDG MIME associations - use dotfiles mimeapps.list
+  xdg.configFile."mimeapps.list".source = ../../../.config/mimeapps.list;
+
+  # Firefox with managed bookmarks
+  programs.firefox = {
+    enable = true;
+    policies = {
+      ManagedBookmarks = [
+        { toplevel_name = "Tools"; }
+        {
+          name = "File Browser";
+          url = "file:///home/${default-username}/.config/filebrowser.html";
+        }
+      ];
+    };
+  };
 }

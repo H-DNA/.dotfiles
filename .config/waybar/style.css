@@ -252,6 +252,58 @@ tooltip label {
   color: @bg;
 }
 
+/* Recording indicator */
+#custom-recording {
+  padding: 0 10px;
+  margin: 2px 4px;
+  border-radius: 8px;
+  background: @red;
+  color: @bg;
+  font-weight: bold;
+}
+
+#custom-recording.recording {
+  background: @red;
+}
+
+#custom-recording.paused {
+  background: @yellow;
+  color: @bg;
+}
+
+/* Recording pause button */
+#custom-recording-pause {
+  padding: 0 8px;
+  margin: 2px 0;
+  margin-left: 0;
+  border-radius: 8px;
+  background: @orange;
+  color: @bg;
+  font-weight: bold;
+}
+
+#custom-recording-pause.paused {
+  background: @green;
+}
+
+/* Mic indicator */
+#custom-mic {
+  padding: 0 8px;
+  margin: 2px 4px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+#custom-mic.muted {
+  background: @gray;
+  color: @bg;
+}
+
+#custom-mic.active {
+  background: @bg1;
+  color: @aqua;
+}
+
 /* Notification */
 #custom-notification {
   padding: 0;

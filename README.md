@@ -23,6 +23,8 @@ Configurations are managed in two ways:
 | **SwayNC** | `.config/swaync/` | Notification center |
 | **Tmux** | `.tmux.conf`, `.config/tmux/` | Terminal multiplexer |
 | **Zsh** | `.zshrc.base` | Shell configuration |
+| **Firefox** | `.config/firefox/` | Browser policies & bookmarks |
+| **EWW** | `.config/eww/` | Capture toolbar (screenshots/recording) |
 | **NixOS** | `nix-config/` | System configuration |
 
 ## Sway Keybindings
@@ -92,13 +94,19 @@ Prefix: `Ctrl+s`
 │   ├── nvim/           # Neovim (Lua-based)
 │   ├── sway/           # Compositor + scripts
 │   │   ├── config
-│   │   ├── scripts/    # wallpaper script
+│   │   ├── scripts/    # wallpaper, capture toolbar
 │   │   └── nixdog/     # backgrounds, avatars
 │   ├── swaylock/       # Lock screen
 │   ├── swaync/         # Notifications
 │   ├── tmux/           # Tmux helper scripts
-│   ├── waybar/         # Status bar
-│   └── wofi/           # Launcher
+│   ├── waybar/         # Status bar + recording status
+│   ├── wofi/           # Launcher
+│   ├── eww/            # Capture toolbar widgets
+│   ├── firefox/        # Browser policies
+│   ├── scripts/        # Shared utility scripts
+│   └── mimeapps.list   # Default applications
+├── .local/share/
+│   └── applications/   # Custom .desktop files
 ├── nix-config/         # NixOS configuration
 │   ├── flake.nix       # Entry point
 │   ├── hosts/          # System configs
@@ -130,8 +138,11 @@ stow nvim
 - JetBrainsMono Nerd Font
 - sway, swaylock-effects, swww, waybar, wofi, swaync
 - grim, slurp, wl-clipboard (screenshots)
+- wf-recorder, ffmpeg (screen recording)
+- eww (capture toolbar)
 - brightnessctl, pavucontrol, blueman
 - tmux, neovim
+- filebrowser (optional, web file manager)
 
 ### Using NixOS
 
@@ -163,3 +174,56 @@ All configurations use the **Gruvbox** color scheme:
 | aqua | `#689d6a` | Secondary |
 | orange | `#d65d0e` | Accent |
 | gray | `#928374` | Muted |
+
+## Capture Toolbar
+
+EWW-based toolbar for screenshots and screen recording. Open with `$mod+p`.
+
+### Features
+
+- **Screenshot**: Click to capture fullscreen, drag to select region
+- **Screen Recording**: With optional system audio and/or microphone
+- **Voice Recording**: Audio-only recording
+- **Pause/Resume**: Segment-based pause for video recordings
+- **File Browser**: Quick access to captured media
+
+### Waybar Integration
+
+Recording status appears in waybar with:
+- Recording duration timer
+- Audio source indicators (system/mic)
+- Pause/resume and stop buttons
+
+### Media Storage
+
+```
+~/Media/
+├── screenshots/    # PNG screenshots
+├── recordings/     # MP4 screen recordings
+└── voice/          # MP3 voice recordings
+```
+
+## File Browser
+
+Web-based file manager accessible via Firefox at `localhost:41819`.
+
+### Setup (Non-NixOS)
+
+```bash
+# Install
+curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
+
+# Run (or create systemd service)
+filebrowser --address 127.0.0.1 --port 41819 --root ~ --noauth
+
+# Setup Firefox bookmark
+~/.config/scripts/update-filebrowser-bookmark
+```
+
+### Security
+
+- Localhost only (127.0.0.1)
+- Secret baseURL (CSRF protection)
+- Command execution disabled
+
+See [.config/firefox/README.md](./.config/firefox/README.md) for details.

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Updates the local redirect page with current File Browser URL
+
+SECRET=$(cat /var/lib/filebrowser/secret 2>/dev/null)
+URL="http://localhost:41819/$SECRET/files/"
+
+cat > ~/.config/filebrowser.html << EOF
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="refresh" content="0;url=$URL">
+  <title>File Browser</title>
+</head>
+<body>
+  <p>Redirecting to <a href="$URL">File Browser</a>...</p>
+</body>
+</html>
+EOF

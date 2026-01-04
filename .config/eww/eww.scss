@@ -1,0 +1,208 @@
+// Capture toolbar styles - Gruvbox theme
+
+// Colors
+$bg: #282828;
+$bg-secondary: #3c3836;
+$bg-hover: #504945;
+$bg-active: #665c54;
+$border: #504945;
+$text: #ebdbb2;
+$text-dim: #a89984;
+
+// Accent colors
+$blue: #83a598;
+$green: #b8bb26;
+$red: #fb4934;
+$orange: #fe8019;
+$yellow: #fabd2f;
+
+// Font settings - ensure Nerd Font is used for icons
+$font-family: "JetBrainsMono Nerd Font", "Symbols Nerd Font", "FiraCode Nerd Font", monospace;
+$icon-font: "Symbols Nerd Font Mono", "JetBrainsMono Nerd Font Mono", monospace;
+
+* {
+  all: unset;
+  font-family: $font-family;
+}
+
+.capture-toolbar {
+  background: $bg;
+  border-radius: 12px;
+  padding: 8px;
+  border: 2px solid $border;
+}
+
+.section {
+  padding: 0 4px;
+}
+
+.capture-btn {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  min-width: 70px;
+  color: $text;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: $bg-hover;
+  }
+
+  &:active {
+    background: $bg-active;
+  }
+}
+
+.btn-icon {
+  font-family: $icon-font;
+  font-size: 32px;
+  color: $text;
+  margin-bottom: 4px;
+}
+
+.btn-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-dim;
+}
+
+// Clipboard buttons - subtle accent
+.clipboard-btn {
+  .btn-icon {
+    color: $blue;
+    font-size: 18px;
+  }
+  .btn-label {
+    color: $blue;
+  }
+  &:hover {
+    background: #3c4a52;
+  }
+}
+
+// Folder button - subtle accent
+.folder-btn {
+  .btn-icon {
+    color: $yellow;
+  }
+  .btn-label {
+    color: $yellow;
+  }
+  &:hover {
+    background: #4a4428;
+  }
+}
+
+// Record buttons - orange accent
+.record-btn {
+  .btn-icon {
+    color: $orange;
+  }
+  &:hover {
+    background: #4a3c2d;
+  }
+}
+
+// Voice button - blue accent
+.voice-btn {
+  .btn-icon {
+    color: $blue;
+  }
+  &:hover {
+    background: #3c4a52;
+  }
+}
+
+// Audio toggles
+.audio-toggles {
+  background: $bg-secondary;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.audio-toggle {
+  background: transparent;
+  border-radius: 4px;
+  padding: 10px 18px;
+  min-width: 70px;
+  color: $text-dim;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: $bg-hover;
+  }
+
+  &.active {
+    background: $orange;
+    color: $bg;
+  }
+}
+
+.toggle-icon {
+  font-family: $icon-font;
+  font-size: 16px;
+}
+
+// Recording active state
+.recording-active {
+  background: #3c2828;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 0 4px;
+}
+
+.recording-status {
+  margin-right: 4px;
+}
+
+.recording-dot {
+  font-family: $icon-font;
+  font-size: 22px;
+  color: $red;
+}
+
+.recording-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: $red;
+}
+
+.recording-time {
+  font-size: 18px;
+  font-weight: 600;
+  color: $text;
+  min-width: 55px;
+}
+
+// Stop button - red accent
+.stop-btn {
+  margin-left: 8px;
+  .btn-icon {
+    color: $red;
+  }
+  &:hover {
+    background: #4a2828;
+  }
+}
+
+// Close button
+.close-btn {
+  .btn-icon {
+    color: $text-dim;
+  }
+  &:hover {
+    background: #3c2828;
+    .btn-icon, .btn-label {
+      color: $red;
+    }
+  }
+}
+
+// Separator
+.separator {
+  background: $border;
+  min-width: 1px;
+  margin: 8px 4px;
+  border-radius: 1px;
+}

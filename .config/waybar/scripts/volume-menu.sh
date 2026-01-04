@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Simple volume menu using wofi
 
 current=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+%' | head -1)
