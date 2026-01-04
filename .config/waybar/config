@@ -14,7 +14,7 @@
     "sway/window"
   ],
   "modules-right": [
-    "custom/stats",
+    "group/stats",
     "pulseaudio",
     "backlight",
     "power-profiles-daemon",
@@ -100,10 +100,32 @@
     "format-alt": " {:%Y-%m-%d}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
-  "custom/stats": {
-    "exec": "bash -c /home/huydna/.config/waybar/scripts/stats-cycler.sh",
-    "return-type": "json",
+
+  "group/stats": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/stats-icon",
+      "cpu",
+      "memory",
+      "network"
+    ]
+  },
+  "custom/stats-icon": {
+    "format": " ",
+    "tooltip-format": "System Stats"
+  },
+  "cpu": {
+    "format": " {usage}%",
     "interval": 5
+  },
+  "memory": {
+    "format": " {percentage}%",
+    "interval": 5
+  },
+  "network": {
+    "format-wifi": "  {essid}",
+    "format-ethernet": " {ifname}",
+    "format-disconnected": " Off"
   },
   "backlight": {
     "format": "{icon} {percent}%",
@@ -121,9 +143,7 @@
     "format-charging": " {capacity}%",
     "format-plugged": " {capacity}%",
     "format-alt": "{icon} {time}",
-    "format-good": "", // An empty format will hide the module
-    "format-full": "",
-    "format-icons": ["", "", "", "", ""]
+    "format-icons": ["", "", "", "", ""]
   },
   "battery#bat2": {
     "bat": "BAT2"
@@ -152,7 +172,7 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["", "", ""]
+      "default": ["", "", " "]
     },
     "on-click": "pavucontrol"
   },

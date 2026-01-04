@@ -1,0 +1,14 @@
+# Appearance
+width=600
+height=400
+location=center
+allow_images=true
+image_size=32
+
+# Behavior
+allow_markup=true
+insensitive=true
+prompt=Search...
+
+# Modes
+show=drun

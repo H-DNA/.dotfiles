@@ -1,0 +1,68 @@
+/* Gruvbox Dark Theme */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 14px;
+}
+
+window {
+  background-color: #282828;
+  border: 2px solid #504945;
+  border-radius: 8px;
+}
+
+#input {
+  background-color: #3c3836;
+  color: #ebdbb2;
+  border: none;
+  border-radius: 4px;
+  margin: 8px;
+  padding: 12px;
+}
+
+#input:focus {
+  border: none;
+  box-shadow: none;
+}
+
+#inner-box {
+  background-color: transparent;
+  margin: 0 8px 8px 8px;
+}
+
+#outer-box {
+  background-color: transparent;
+}
+
+#scroll {
+  background-color: transparent;
+  margin: 0;
+}
+
+#text {
+  color: #ebdbb2;
+  margin: 0 4px;
+}
+
+#text:selected {
+  color: #fbf1c7;
+}
+
+#entry {
+  background-color: transparent;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+#entry:selected {
+  background-color: #504945;
+  border-left: 3px solid #b8bb26;
+}
+
+#entry:hover {
+  background-color: #3c3836;
+}
+
+#img {
+  margin-right: 8px;
+}

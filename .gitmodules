@@ -1,3 +1,6 @@
 [submodule "nix-config"]
 	path = nix-config
 	url = https://github.com/H-DNA/nix-config
+[submodule ".config/sway/nixdog"]
+	path = .config/sway/nixdog
+	url = https://github.com/H-DNA/nixdog
