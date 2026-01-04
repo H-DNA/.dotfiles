@@ -1,156 +1,165 @@
 # Dotfiles
 
-This repository contains my personal dotfiles and configurations for various tools, primarily for a Linux environment running a Wayland compositor.
+Personal dotfiles for a Linux environment running Sway (Wayland compositor) with a Gruvbox color theme.
 
-The configurations are managed in two ways:
-1.  **Stow**: For simple, standalone configurations that can be symlinked directly into the home directory.
-2.  **Nix & Home Manager**: For a more declarative and reproducible setup, especially for system-level configurations and managing packages. The Nix configuration is located in the `nix-config` directory.
+## Management
 
-## Managed applications
+Configurations are managed in two ways:
+1. **Stow**: For symlinking configs directly into the home directory
+2. **Nix & Home Manager**: For declarative, reproducible system setup (see `nix-config/`)
 
-| Application | Configuration Location | Managed By | Description |
-| :--- | :--- | :--- | :--- |
-| **Alacritty** | `.config/alacritty/` | Stow / Nix | A fast, GPU-accelerated terminal emulator. |
-| **Ghostty** | `.config/ghostty/` | Stow / Nix | A modern, GPU-accelerated terminal emulator. |
-| **Kitty** | `.config/kitty/` | Stow / Nix | A feature-rich, GPU-based terminal emulator. |
-| **Neovim** | `.config/nvim/` | Stow / Nix | A highly extensible, Vim-based text editor. |
-| **Sway** | `.config/sway/` | Stow / Nix | A tiling Wayland compositor, i3-compatible. |
-| **Waybar** | `.config/waybar/` | Stow / Nix | A highly customizable Wayland bar for Sway. |
-| **Wofi** | `.config/wofi/` | Stow / Nix | A launcher/menu for Wayland compositors. |
-| **Tmux** | `.tmux.conf` | Stow / Nix | A terminal multiplexer. |
-| **Zsh** | `.zshrc`, `.zshrc.base` | Stow / Nix | The Z shell. |
-| **NixOS** | `nix-config/` | Nix | The entire system configuration. |
+## Managed Applications
 
----
+| Application | Location | Description |
+|-------------|----------|-------------|
+| **Alacritty** | `.config/alacritty/` | GPU-accelerated terminal |
+| **Ghostty** | `.config/ghostty/` | Modern terminal emulator |
+| **Kitty** | `.config/kitty/` | Feature-rich terminal |
+| **Neovim** | `.config/nvim/` | Extensible text editor |
+| **Sway** | `.config/sway/` | Tiling Wayland compositor |
+| **Waybar** | `.config/waybar/` | Status bar for Sway |
+| **Wofi** | `.config/wofi/` | Application launcher |
+| **Swaylock** | `.config/swaylock/` | Screen locker (effects) |
+| **SwayNC** | `.config/swaync/` | Notification center |
+| **Tmux** | `.tmux.conf`, `.config/tmux/` | Terminal multiplexer |
+| **Zsh** | `.zshrc.base` | Shell configuration |
+| **NixOS** | `nix-config/` | System configuration |
 
-## Codebase structure
+## Sway Keybindings
 
-This repository is a "dotfiles" monorepo, meaning it stores all your configuration files for various applications in one place. It uses a hybrid approach for managing these configurations: `stow` for simple symlinking and `Nix/home-manager` for a fully declarative and reproducible environment.
+### General
+| Key | Action |
+|-----|--------|
+| `$mod+t` | Open terminal |
+| `$mod+Space` | App launcher (wofi) |
+| `$mod+q` | Kill window |
+| `$mod+c` | Reload config |
+| `$mod+Escape` | Lock screen |
+| `$mod+Shift+e` | Exit sway |
 
-### High-level structure
+### Navigation
+| Key | Action |
+|-----|--------|
+| `$mod+h/j/k/l` | Focus left/down/up/right |
+| `$mod+1-0` | Switch to workspace 1-10 |
+| `$mod+Shift+1-0` | Move window to workspace |
+
+### Window Management
+| Key | Action |
+|-----|--------|
+| `$mod+Shift+h/j/k/l` | Move window |
+| `$mod+f` | Fullscreen |
+| `$mod+d` | Toggle floating |
+| `$mod+Return` | Toggle focus tiling/floating |
+| `$mod+r` | Resize mode |
+| `$mod+s/w/e` | Stacking/tabbed/split layout |
+
+### Scratchpad
+| Key | Action |
+|-----|--------|
+| `$mod+-` | Show scratchpad |
+| `$mod+Shift+-` | Move to scratchpad |
+
+### Utilities
+| Key | Action |
+|-----|--------|
+| `Print` | Screenshot (full, clipboard) |
+| `Shift+Print` | Screenshot (area, clipboard) |
+| `$mod+Print` | Screenshot (full, file) |
+| `$mod+Shift+Print` | Screenshot (area, file) |
+| `$mod+b` | Random wallpaper |
+| `XF86Audio*` | Volume controls |
+| `XF86MonBrightness*` | Brightness controls |
+
+## Tmux Keybindings
+
+Prefix: `Ctrl+s`
+
+| Key | Action |
+|-----|--------|
+| `prefix+r` | Reload config |
+| `prefix+q` | Enter copy mode |
+| `prefix+h/j/k/l` | Navigate panes (vim-tmux-navigator) |
+
+## Directory Structure
 
 ```
 .
-├── .config/             # Configurations for most GUI and terminal applications
-├── nix-config/          # A complete, declarative NixOS and home-manager setup
-├── .tmux.conf           # Configuration for the tmux terminal multiplexer
-├── .zshrc.base          # Base Zsh configuration, sourced by .zshrc
-├── .zshrc.example       # Example Zsh file for local/private settings
-├── README.md            # Main README explaining the repository
-└── ...                  # Other dotfiles like .gitconfig, .gitignore etc.
+├── .config/
+│   ├── alacritty/      # Terminal config
+│   ├── ghostty/        # Terminal config
+│   ├── kitty/          # Terminal config
+│   ├── nvim/           # Neovim (Lua-based)
+│   ├── sway/           # Compositor + scripts
+│   │   ├── config
+│   │   ├── scripts/    # wallpaper script
+│   │   └── nixdog/     # backgrounds, avatars
+│   ├── swaylock/       # Lock screen
+│   ├── swaync/         # Notifications
+│   ├── tmux/           # Tmux helper scripts
+│   ├── waybar/         # Status bar
+│   └── wofi/           # Launcher
+├── nix-config/         # NixOS configuration
+│   ├── flake.nix       # Entry point
+│   ├── hosts/          # System configs
+│   ├── home/           # User configs
+│   ├── overlays/       # Package overrides
+│   └── secrets/        # Encrypted secrets
+├── .tmux.conf          # Tmux configuration
+├── .zshrc.base         # Zsh configuration
+└── .gitconfig          # Git configuration
 ```
-
----
-
-### 1. Root directory
-
-The root directory contains configuration files that typically reside directly in the user's home directory (`~`).
-
--   **`.tmux.conf`**: The configuration file for `tmux`.
--   **`.zshrc.base`**: Contains the main, shareable Zsh shell configuration.
--   **`.zshrc.example`**: A template for creating a `.zshrc` file. This is meant to be copied to `.zshrc` and is a good place to put machine-specific or private environment variables, so they don't get committed to version control.
--   **`.stow-local-ignore`**: Tells `stow` to ignore certain files when creating symlinks, like the main `README.md`.
-
-These files are intended to be managed by `stow`, which will create symlinks to them from your home directory.
-
----
-
-### 2. `.config` directory
-
-This directory follows the XDG Base Directory Specification, storing configurations for many applications inside `~/.config/`. Each folder within corresponds to an application.
-
--   **`alacritty/`**, **`ghostty/`**, **`kitty/`**: Configurations for different terminal emulators. You can easily switch between them.
--   **`nvim/`**: A highly customized Neovim setup. This is a complex configuration in itself, with a modular structure using Lua.
-    -   `init.lua`: The entry point.
-    -   `lua/core/`: Core settings, keymaps, and the plugin manager (`lazy.nvim`).
-    -   `lua/plugins/`: Plugin configurations, separated by category (LSP, UI, completion, etc.).
--   **`sway/`**, **`waybar/``, `wofi/`**: Configurations for a complete Wayland desktop environment (compositor, status bar, and application launcher).
-
-Like the files in the root, these are also manageable via `stow`. For example, `stow nvim` would symlink the `nvim` directory to `~/.config/nvim`.
-
----
-
-### 3. `nix-config` directory
-
-This is the most complex part of the repository. It contains a complete, declarative system configuration using **NixOS** and **Home Manager**. This allows you to rebuild your entire system and user environment from these files.
-
--   **`flake.nix`**: The entry point for the Nix configuration. It defines the repository's "outputs," which are your system configurations, and manages dependencies (inputs) like `nixpkgs` and `home-manager`.
--   **`hosts/`**: Contains system-level configurations for different machines (or "hosts").
-    -   `common/`: Modules and settings that are shared across all your machines.
-    -   `x86_64-linux/`: Configuration specific to a machine with that architecture. This is where you'd define hardware-specific settings.
--   **`home/`**: Contains user-level configurations managed by `home-manager`.
-    -   `huydna/`: This is your user-specific configuration. It defines packages to install, dotfiles to manage, services to run, etc., for your user account.
--   **`overlays/`**: Allows you to customize or override packages in `nixpkgs`.
--   **`secrets/`**: Managed by `agenix` for encrypting and decrypting secrets like API keys or passwords.
--   **`README.md`**: A very detailed guide on how to use and maintain this Nix setup.
 
 ## Installation
 
-There are two ways to use this repository, depending on your setup.
+### Using Stow (non-NixOS)
 
-### 1. Stow (for non-NixOS systems)
+```bash
+# Clone
+git clone https://github.com/H-DNA/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 
-This method uses GNU Stow to symlink the configuration files into your home directory.
+# Symlink everything
+stow .
 
-**Prerequisites:**
-*   `stow`
-*   `git`
-*   The required fonts (e.g., `JetBrainsMono Nerd Font`)
-*   The applications themselves (e.g., `alacritty`, `nvim`, etc.)
+# Or specific configs
+stow nvim
+```
 
-**Steps:**
+**Dependencies:**
+- JetBrainsMono Nerd Font
+- sway, swaylock-effects, swww, waybar, wofi, swaync
+- grim, slurp, wl-clipboard (screenshots)
+- brightnessctl, pavucontrol, blueman
+- tmux, neovim
 
-1.  Clone the repository:
-    ```sh
-    git clone https://github.com/H-DNA/.dotfiles.git ~/.dotfiles
-    ```
-2.  Navigate into the repository:
-    ```sh
-    cd ~/.dotfiles
-    ```
-3.  Use Stow to link the desired configurations. For example, to link everything:
-    ```sh
-    # This will symlink the contents of each folder into your home directory
-    stow .
-    ```
-    To link a specific application's config (e.g., nvim):
-    ```sh
-    stow nvim
-    ```
-4.  Set up your Zsh configuration:
-    ```sh
-    cp .zshrc.example .zshrc
-    # Then customize .zshrc with any local overrides
-    ```
+### Using NixOS
 
-### 2. Nix & Home Manager (for NixOS systems)
+```bash
+# Clone to dotfiles
+git clone https://github.com/H-DNA/dotfiles.git ~/dotfiles
 
-The `nix-config` directory contains a complete NixOS configuration that uses flakes. This is the recommended way to achieve a fully reproducible setup.
+# Build and switch
+sudo nixos-rebuild switch --flake ~/dotfiles/nix-config#x86_64-linux
+```
 
-**Prerequisites:**
-*   A running NixOS system with flakes enabled.
+See [nix-config/README.md](./nix-config/README.md) for detailed NixOS documentation.
 
-**Steps:**
+## Color Theme
 
-1.  Clone this repository, typically into `/etc/nixos` or a preferred location.
-    ```sh
-    git clone https://github.com/H-DNA/.dotfiles.git /etc/nixos
-    cd /etc/nixos
-    ```
-2.  Build and switch to the new configuration. You may need to adjust `flake.nix` to match your hostname (`x86_64-linux` is the default).
-    ```sh
-    sudo nixos-rebuild switch --flake .#x86_64-linux
-    ```
+All configurations use the **Gruvbox** color scheme:
 
-For more details on the NixOS setup, please refer to the detailed README in the `nix-config` directory:
-[**NixOS Configuration README**](./nix-config/README.md)
-
----
-
-## External dependencies
-
-When not using the Nix-based setup, you will need to install some dependencies manually.
-
-*   **Fonts**: `JetBrainsMono Nerd Font` is used across many of the configurations.
-*   **Sway dependencies**: If using `sway`, ensure `grim` (screenshots), `swaync` (notifications), `fcitx5` (input method), and `swaybg` (wallpaper) are installed.
-*   **Neovim lSPs**: The Neovim configuration uses Mason to manage LSP servers, but some may need to be installed independently depending on your environment.
+| Color | Hex | Usage |
+|-------|-----|-------|
+| bg0 | `#1d2021` | Background |
+| bg1 | `#3c3836` | Surface |
+| bg2 | `#504945` | Surface variant |
+| fg | `#ebdbb2` | Text |
+| red | `#cc241d` | Errors, urgent |
+| green | `#98971a` | Success |
+| yellow | `#d79921` | Warnings |
+| blue | `#458588` | Info, focused |
+| purple | `#b16286` | Special |
+| aqua | `#689d6a` | Secondary |
+| orange | `#d65d0e` | Accent |
+| gray | `#928374` | Muted |

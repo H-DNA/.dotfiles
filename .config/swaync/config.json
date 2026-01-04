@@ -29,14 +29,13 @@
   "scripts": {},
   "notification-visibility": {},
   "widgets": [
-    "inhibitors",
-    "title",
-    "dnd",
-    "notifications",
-    "mpris",
     "volume",
     "backlight",
-    "buttons-grid"
+    "mpris",
+    "buttons-grid",
+    "title",
+    "dnd",
+    "notifications"
   ],
   "widget-config": {
     "inhibitors": {
@@ -61,47 +60,51 @@
       "image-radius": 12
     },
     "volume": {
-      "label": "  Volume",
+      "label": "󰕾 Volume",
       "show-per-app": false
     },
     "backlight": {
-      "label": "  Brightness"
+      "label": "󰃟 Brightness"
     },
     "buttons-grid": {
       "actions": [
         {
-          "label": " ",
+          "label": "󰖩",
           "command": "nm-connection-editor"
         },
         {
-          "label": " ",
+          "label": "󰂯",
           "command": "blueman-manager"
         },
         {
-          "label": " ",
+          "label": "󰌪",
           "command": "powerprofilesctl set power-saver && notify-send 'Power Saver'"
         },
         {
-          "label": " ",
+          "label": "󰛲",
           "command": "powerprofilesctl set balanced && notify-send 'Balanced'"
         },
         {
-          "label": " ",
+          "label": "󰓅",
           "command": "powerprofilesctl set performance && notify-send 'Performance'"
         },
         {
-          "label": " ",
+          "label": "󰌾",
           "command": "swaylock"
         },
         {
-          "label": " ",
+          "label": "󰐥",
           "command": "systemctl poweroff"
         },
         {
-          "label": " ",
+          "label": "󰜉",
           "command": "systemctl reboot"
         }
       ]
+    },
+    "notifications": {
+      "text": "Notifications",
+      "placeholder": "󰂜  No notifications"
     }
   }
 }

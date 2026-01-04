@@ -4,7 +4,7 @@
   users.users.${default-username} = {
     home = "/home/${default-username}";
     isNormalUser = true;
-    extraGroups = lib.mkDefault [ "wheel" "networkmanager" "video" ];
+    extraGroups = lib.mkDefault [ "wheel" "networkmanager" "video" "docker" ];
     shell = pkgs.zsh;
   };
 }

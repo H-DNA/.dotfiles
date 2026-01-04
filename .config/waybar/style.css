@@ -251,3 +251,20 @@ tooltip label {
   background: @purple;
   color: @bg;
 }
+
+/* Notification */
+#custom-notification {
+  padding: 0;
+  padding-left: 6px;
+  padding-right: 8px;
+  margin: 2px 4px;
+  border-radius: 8px;
+  background: @purple;
+  color: @bg;
+  font-size: 14px;
+}
+
+#custom-notification.notification {
+  background: @red;
+  color: @bg;
+}

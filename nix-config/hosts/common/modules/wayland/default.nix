@@ -5,13 +5,35 @@
   programs.sway.enable = true;
   xdg.portal.wlr.enable = true;
 
+  # Cursor theme (fixes disappearing cursor in some web apps)
+  environment.sessionVariables = {
+    XCURSOR_THEME = "Adwaita";
+    XCURSOR_SIZE = "24";
+  };
+
   environment.systemPackages = with pkgs; [
+    # Cursor theme
+    adwaita-icon-theme
+
+    # Sway core
     swaylock-effects
     swayidle
     swww
     wofi
+
+    # Screenshot
     grim
+    slurp
+    wl-clipboard
+
+    # System controls
     brightnessctl
+    pavucontrol
+    pwvucontrol
+    blueman
+    networkmanagerapplet
+
+    # Bar & notifications
     waybar
     swaynotificationcenter
   ];

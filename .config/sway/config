@@ -26,11 +26,31 @@ set $menu wofi --show=drun
 exec swww-daemon
 exec swww img ~/.config/sway/nixdog/background/default.jpg
 
-### Idle configuration
-#exec swayidle -w \
-#  timeout 300 'swaylock -f -i ~/.config/sway/backgrounds/lockscreen.png' \
-#  timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#  before-sleep 'swaylock -f -i ~/.config/sway/backgrounds/lockscreen.png'
+### Cursor
+seat seat0 xcursor_theme Adwaita 24
+
+### Disable client-side decorations for GTK apps
+exec_always gsettings set org.gnome.desktop.wm.preferences button-layout ''
+
+### Appearance
+gaps inner 6
+gaps outer 2
+
+# Border style (pixel = no title bar, normal = with title bar)
+default_border pixel 2
+default_floating_border pixel 2
+
+# Hide borders when only one window
+hide_edge_borders smart
+
+# Force pixel borders on all windows (override CSD)
+for_window [title=".*"] border pixel 2
+
+# Gruvbox border colors: border, background, text, indicator, child_border
+client.focused #458588 #458588 #1d2021 #689d6a #458588
+client.unfocused #3c3836 #1d2021 #928374 #3c3836 #3c3836
+client.focused_inactive #504945 #1d2021 #ebdbb2 #504945 #504945
+client.urgent #cc241d #cc241d #ebdbb2 #cc241d #cc241d
 
 ### Input configuration
 input * {
@@ -112,6 +132,10 @@ bindsym $mod+f fullscreen
 # Move focus to the parent container
 bindsym $mod+a focus parent
 
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
 # Resizing containers
 mode "resize" {
   bindsym $left resize shrink width 10px
@@ -138,10 +162,15 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ t
 # Special keys to adjust brightness via brightnessctl
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-# Special key to take a screenshot with grim
+# Screenshots
 bindsym Print exec grim - | wl-copy
+bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
+bindsym $mod+Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+bindsym $mod+Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
 # Wallpaper controls
 bindsym $mod+b exec ~/.config/sway/scripts/wallpaper random
+# Lock screen
+bindsym $mod+Escape exec swaylock
 
 # Status Bar
 bar swaybar_command waybar

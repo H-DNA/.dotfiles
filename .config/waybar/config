@@ -1,4 +1,3 @@
-// -*- mode: jsonc -*-
 {
   "layer": "top",
   "position": "top",
@@ -7,8 +6,7 @@
   "modules-left": [
     "sway/workspaces",
     "sway/mode",
-    "sway/scratchpad",
-    "custom/media"
+    "sway/scratchpad"
   ],
   "modules-center": [
     "sway/window"
@@ -19,8 +17,8 @@
     "backlight",
     "power-profiles-daemon",
     "battery",
-    "battery#bat2",
-    "clock"
+    "clock",
+    "custom/notification"
   ],
   "sway/workspaces": {
     "disable-scroll": true,
@@ -38,15 +36,6 @@
       "default": ""
     }
   },
-  "keyboard-state": {
-    "numlock": true,
-    "capslock": true,
-    "format": "{icon} {name}",
-    "format-icons": {
-      "locked": "",
-      "unlocked": ""
-    }
-  },
   "sway/mode": {
     "format": "<span style=\"italic\">{}</span>"
   },
@@ -60,49 +49,11 @@
     "tooltip": true,
     "tooltip-format": "{app}: {title}"
   },
-  "mpd": {
-    "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-    "format-disconnected": "Disconnected ",
-    "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-    "unknown-tag": "N/A",
-    "interval": 5,
-    "consume-icons": {
-      "on": " "
-    },
-    "random-icons": {
-      "off": "<span color=\"#f53c3c\"></span> ",
-      "on": " "
-    },
-    "repeat-icons": {
-      "on": " "
-    },
-    "single-icons": {
-      "on": "1 "
-    },
-    "state-icons": {
-      "paused": "",
-      "playing": ""
-    },
-    "tooltip-format": "MPD (connected)",
-    "tooltip-format-disconnected": "MPD (disconnected)"
-  },
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-      "activated": "",
-      "deactivated": ""
-    }
-  },
-  "tray": {
-    "icon-size": 21,
-    "spacing": 10
-  },
   "clock": {
     "timezone": "Asia/Ho_Chi_Minh",
     "format": " {:%H:%M}",
     "format-alt": " {:%Y-%m-%d}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "on-click": "swaync-client -t"
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
   "group/stats": {
     "orientation": "horizontal",
@@ -119,21 +70,18 @@
   },
   "cpu": {
     "format": " {usage}%",
-    "interval": 5,
-    "on-click": "swaync-client -t"
+    "interval": 5
   },
   "memory": {
     "format": " {percentage}%",
-    "interval": 5,
-    "on-click": "swaync-client -t"
+    "interval": 5
   },
   "network": {
     "format-wifi": "  {essid}",
     "format-ethernet": " {ifname}",
     "format-disconnected": " Off",
     "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{bandwidthUpBits} up / {bandwidthDownBits} down",
-    "on-click": "nm-connection-editor",
-    "on-click-right": "swaync-client -t"
+    "on-click": "nm-connection-editor"
   },
   "backlight": {
     "format": "{icon} {percent}%",
@@ -150,8 +98,7 @@
       ""
     ],
     "on-scroll-up": "brightnessctl set 5%+",
-    "on-scroll-down": "brightnessctl set 5%-",
-    "on-click": "swaync-client -t"
+    "on-scroll-down": "brightnessctl set 5%-"
   },
   "battery": {
     "states": {
@@ -170,11 +117,7 @@
       "",
       "",
       ""
-    ],
-    "on-click": "swaync-client -t"
-  },
-  "battery#bat2": {
-    "bat": "BAT2"
+    ]
   },
   "power-profiles-daemon": {
     "format": "{icon}",
@@ -185,8 +128,7 @@
       "performance": "",
       "balanced": "",
       "power-saver": ""
-    },
-    "on-click": "swaync-client -t"
+    }
   },
   "pulseaudio": {
     "scroll-step": 5,
@@ -207,19 +149,23 @@
         " "
       ]
     },
-    "on-click": "pavucontrol",
+    "on-click": "pwvucontrol",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "on-click-middle": "swaync-client -t"
+    "on-click-middle": "pavucontrol"
   },
-  "custom/media": {
-    "format": "{icon} {text}",
-    "return-type": "json",
-    "max-length": 40,
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
     "format-icons": {
-      "spotify": "",
-      "default": "🎜"
+      "notification": "󰂚",
+      "none": "󰂜",
+      "dnd-notification": "󰂛",
+      "dnd-none": "󰪑"
     },
-    "escape": true,
-    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
+    "return-type": "json",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
   }
 }

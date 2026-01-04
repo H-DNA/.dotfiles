@@ -26,9 +26,6 @@
     postgresql_16
     mysql84
 
-    # Containers
-    docker_28
-
     # Web servers
     apacheHttpd
 

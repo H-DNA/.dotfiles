@@ -6,5 +6,6 @@ window-height = 30
 window-width = 120
 
 background-opacity = 0.9
+window-decoration = false
 
 shell-integration = zsh

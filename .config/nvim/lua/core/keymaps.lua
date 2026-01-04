@@ -5,6 +5,7 @@ vim.opt.backspace = "2"
 vim.opt.showcmd = true
 vim.opt.autowrite = true
 vim.opt.cursorline = true
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkon0"
 vim.opt.autoread = true
 
 vim.opt.tabstop = 2
