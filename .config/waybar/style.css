@@ -248,7 +248,15 @@ tooltip label {
 
 /* Idle inhibitor */
 #idle_inhibitor {
-  background: @purple;
+  padding: 0 8px;
+  margin: 2px 4px;
+  border-radius: 8px;
+  background: @bg1;
+  color: @gray;
+}
+
+#idle_inhibitor.activated {
+  background: @aqua;
   color: @bg;
 }
 

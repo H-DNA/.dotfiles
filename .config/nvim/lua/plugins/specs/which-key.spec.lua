@@ -1,0 +1,51 @@
+return {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  opts = {
+    preset = "modern",
+    delay = 300,
+    icons = {
+      breadcrumb = "»",
+      separator = "➜",
+      group = "+",
+    },
+    spec = {
+      { "<leader>b", group = "Buffer" },
+      { "<leader>bd", desc = "Delete buffer" },
+      { "<leader>c", group = "Code" },
+      { "<leader>ca", desc = "Code action" },
+      { "<leader>f", group = "Find" },
+      { "<leader>ff", desc = "Find files" },
+      { "<leader>fg", desc = "Live grep" },
+      { "<leader>fb", desc = "Find buffers" },
+      { "<leader>fh", desc = "Help tags" },
+      { "<leader>l", group = "LSP" },
+      { "<leader>ld", desc = "Go to definition" },
+      { "<leader>li", desc = "Find references" },
+      { "<leader>lr", desc = "Rename" },
+      { "<leader>lh", desc = "Hover" },
+      { "<leader>lf", desc = "Format" },
+      { "<leader>ls", desc = "Document symbols" },
+      { "<leader>lc", desc = "Outgoing calls" },
+      { "<leader>lo", desc = "Diagnostics" },
+      { "<leader>e", desc = "File explorer" },
+      { "<leader>x", desc = "Source file" },
+      { "[", group = "Previous" },
+      { "[b", desc = "Previous buffer" },
+      { "[B", desc = "First buffer" },
+      { "]", group = "Next" },
+      { "]b", desc = "Next buffer" },
+      { "]B", desc = "Last buffer" },
+      { "<leader>g", group = "Git" },
+    },
+  },
+  keys = {
+    {
+      "<leader>?",
+      function()
+        require("which-key").show({ global = false })
+      end,
+      desc = "Buffer keymaps",
+    },
+  },
+}
