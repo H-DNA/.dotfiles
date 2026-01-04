@@ -21,10 +21,11 @@
     swww
     wofi
 
-    # Screenshot
+    # Screenshot & recording
     grim
     slurp
     wl-clipboard
+    wf-recorder
 
     # System controls
     brightnessctl

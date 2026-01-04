@@ -199,11 +199,8 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ t
 # Special keys to adjust brightness via brightnessctl
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-# Screenshots
-bindsym Print exec grim - | wl-copy
-bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
-bindsym $mod+Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
-bindsym $mod+Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+# Screenshot & recording (PrtScr to select region, then choose action)
+bindsym Print exec ~/.config/sway/scripts/capture
 # Wallpaper controls
 bindsym $mod+Shift+w exec ~/.config/sway/scripts/wallpaper random
 # Lock screen

@@ -53,7 +53,6 @@
     slack
 
     # Media
-    obs-studio
     melonDS
 
     # CLI tools

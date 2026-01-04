@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+# Screenshot and screen recording script for sway
+# Uses slurp for region selection, grim for screenshots, wf-recorder for recording
+
+SCREENSHOT_DIR="$HOME/Pictures/screenshots"
+RECORDING_DIR="$HOME/Videos/recordings"
+RECORDING_PID_FILE="/tmp/wf-recorder.pid"
+
+# Ensure directories exist
+mkdir -p "$SCREENSHOT_DIR" "$RECORDING_DIR"
+
+# Check if currently recording
+if [ -f "$RECORDING_PID_FILE" ]; then
+    pid=$(cat "$RECORDING_PID_FILE")
+    if kill -0 "$pid" 2>/dev/null; then
+        # Stop recording
+        kill -SIGINT "$pid"
+        rm -f "$RECORDING_PID_FILE"
+        notify-send "Recording stopped" "Video saved to $RECORDING_DIR"
+        exit 0
+    else
+        rm -f "$RECORDING_PID_FILE"
+    fi
+fi
+
+# Select region with slurp
+geometry=$(slurp 2>/dev/null)
+[ -z "$geometry" ] && exit 0
+
+# Show menu to choose action
+action=$(printf "Screenshot (clipboard)\nScreenshot (save)\nRecord video\nRecord video (with audio)" | wofi --dmenu --prompt "Capture" --width 300 --height 200)
+[ -z "$action" ] && exit 0
+
+timestamp=$(date +%Y%m%d-%H%M%S)
+
+case "$action" in
+    "Screenshot (clipboard)")
+        grim -g "$geometry" - | wl-copy
+        notify-send "Screenshot copied" "Region captured to clipboard"
+        ;;
+    "Screenshot (save)")
+        filename="$SCREENSHOT_DIR/screenshot-$timestamp.png"
+        grim -g "$geometry" "$filename"
+        wl-copy < "$filename"
+        notify-send "Screenshot saved" "$filename"
+        ;;
+    "Record video")
+        filename="$RECORDING_DIR/recording-$timestamp.mp4"
+        wf-recorder -g "$geometry" -f "$filename" &
+        echo $! > "$RECORDING_PID_FILE"
+        notify-send "Recording started" "Press PrtScr again to stop"
+        ;;
+    "Record video (with audio)")
+        filename="$RECORDING_DIR/recording-$timestamp.mp4"
+        wf-recorder -g "$geometry" -f "$filename" --audio &
+        echo $! > "$RECORDING_PID_FILE"
+        notify-send "Recording started" "Press PrtScr again to stop"
+        ;;
+esac
