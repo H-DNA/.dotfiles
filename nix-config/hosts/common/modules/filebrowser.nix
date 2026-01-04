@@ -16,6 +16,8 @@
 
   services.filebrowser = {
     enable = true;
+    user = "huydna";
+    group = "users";
     settings = {
       address = "127.0.0.1";
       port = 41819;
@@ -26,10 +28,8 @@
     };
   };
 
-  # Override service to use runtime secret and run as user
+  # Override service to use runtime secret
   systemd.services.filebrowser.serviceConfig = {
-    User = pkgs.lib.mkForce "huydna";
-    Group = pkgs.lib.mkForce "users";
     WorkingDirectory = pkgs.lib.mkForce "/home/huydna";
     ExecStart = pkgs.lib.mkForce (
       pkgs.writeShellScript "filebrowser-start" ''
