@@ -5,9 +5,7 @@
   # See: /home/<username>/packages.nix
   #
   # This file only contains host-specific user configuration
-  # that cannot be managed by Home Manager (e.g., docker group membership)
-
-  users.users.${default-username} = {
-    extraGroups = [ "docker" ];
-  };
+  # that cannot be managed by Home Manager
+  #
+  # Note: extraGroups (wheel, docker, etc.) are defined in common config
 }

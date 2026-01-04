@@ -1,8 +1,16 @@
-{ hostname, arch, pkgs, ... }:
+{
+  hostname,
+  arch,
+  pkgs,
+  ...
+}:
 
 {
   # Enable flake
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Automatic garbage collection
   nix.gc = {
@@ -30,7 +38,6 @@
 
   # Hostname
   networking.hostName = hostname;
-
 
   # Faster man page lookups
   documentation.man.generateCaches = true;

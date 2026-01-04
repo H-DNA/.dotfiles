@@ -20,7 +20,7 @@
     enable = true;
     settings = {
       user.name = "Huy Do";
-      user.email = "huydna@gmail.com";
+      user.email = "huydo862003@gmail.com";
       init.defaultBranch = "master";
       pull.rebase = true;
       push.autoSetupRemote = true;

@@ -2,7 +2,6 @@
 
 {
 
-
   # Shell aliases for manual reloading
   programs.zsh.shellAliases = {
     # Nix/NixOS

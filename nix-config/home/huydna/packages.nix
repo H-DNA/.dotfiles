@@ -67,7 +67,7 @@
     claude-code
 
     # Nix development
-    nil               # Nix LSP
-    nixfmt-rfc-style  # Nix formatter (matches flake formatter)
+    nil # Nix LSP
+    nixfmt-rfc-style # Nix formatter (matches flake formatter)
   ];
 }
