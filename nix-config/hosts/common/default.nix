@@ -24,6 +24,10 @@
     keyMap = "us";
   };
 
+  # Enable sudo for wheel group
+  security.sudo.enable = true;
+  security.sudo.wheelNeedsPassword = true;
+
   # Hostname
   networking.hostName = hostname;
 

@@ -7,13 +7,13 @@
 
   # Cursor theme (fixes disappearing cursor in some web apps)
   environment.sessionVariables = {
-    XCURSOR_THEME = "Adwaita";
+    XCURSOR_THEME = "Bibata-Modern-Classic";
     XCURSOR_SIZE = "24";
   };
 
   environment.systemPackages = with pkgs; [
     # Cursor theme
-    adwaita-icon-theme
+    bibata-cursors
 
     # Sway core
     swaylock-effects

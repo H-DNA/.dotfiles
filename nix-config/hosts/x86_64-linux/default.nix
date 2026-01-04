@@ -1,4 +1,4 @@
-{ pkgs, nixos-hardware, agenix, config, ... }:
+{ pkgs, nixos-hardware, ... }:
 
 {
   imports = [
@@ -28,30 +28,30 @@
   # Enable network manager
   networking.networkmanager.enable = true;
 
-  # Agenix secrets
-  age.secrets.zerotier-network-id = {
-    file = ../../secrets/zerotier-network-id.age;
-    mode = "0400";
-  };
+  # Agenix secrets (temporarily disabled - need to rekey with host SSH key)
+  # age.secrets.zerotier-network-id = {
+  #   file = ../../secrets/zerotier-network-id.age;
+  #   mode = "0400";
+  # };
 
-  # ZeroTier VPN (using encrypted secret)
-  services.zerotierone = {
-    enable = true;
-    joinNetworks = [ ];  # Networks are joined via secret file
-  };
+  # ZeroTier VPN (temporarily disabled)
+  # services.zerotierone = {
+  #   enable = true;
+  #   joinNetworks = [ ];  # Networks are joined via secret file
+  # };
 
-  # Read ZeroTier network ID from secret and join
-  systemd.services.zerotierone-join = {
-    description = "Join ZeroTier network from secret";
-    after = [ "zerotierone.service" ];
-    wants = [ "zerotierone.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.zerotierone}/bin/zerotier-cli join $(cat ${config.age.secrets.zerotier-network-id.path} | tr -d \"\\n\")'";
-    };
-  };
+  # Read ZeroTier network ID from secret and join (temporarily disabled)
+  # systemd.services.zerotierone-join = {
+  #   description = "Join ZeroTier network from secret";
+  #   after = [ "zerotierone.service" ];
+  #   wants = [ "zerotierone.service" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     RemainAfterExit = true;
+  #     ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.zerotierone}/bin/zerotier-cli join $(cat ${config.age.secrets.zerotier-network-id.path} | tr -d \"\\n\")'";
+  #   };
+  # };
 
   networking.firewall.allowedTCPPorts = [ 2377 7946 4789 ];
   networking.firewall.allowedUDPPorts = [ 2377 7946 4789 ];
