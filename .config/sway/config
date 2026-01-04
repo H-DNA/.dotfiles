@@ -37,8 +37,8 @@ exec_always gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Moder
 exec_always gsettings set org.gnome.desktop.interface cursor-size 24
 
 ### Appearance
-gaps inner 8
-gaps outer 4
+gaps inner 0
+gaps outer 0
 
 # Smart gaps - disable gaps when only one window
 smart_gaps on
