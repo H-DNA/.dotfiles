@@ -31,10 +31,13 @@ nvim/
 ## Key Features
 
 - **LSP**: Mason-managed + Nix-provided servers (nil for Nix)
-- **Completion**: nvim-cmp with LSP, buffer, and path sources
+- **Completion**: nvim-cmp with LSP, snippets, path, buffer, and cmdline sources
 - **Treesitter**: Syntax highlighting and code navigation
 - **Telescope**: Fuzzy finder for files, grep, and more
 - **Git**: Gitsigns, fugitive, lazygit integration
+- **Editing**: Comment.nvim, nvim-surround, nvim-autopairs
+- **Formatting**: Format-on-save with stylua, prettier, black, gofumpt
+- **Diagnostics**: Inline virtual text with Nerd Font icons
 
 ## Adding a New LSP Server
 
@@ -61,6 +64,14 @@ nvim/
 | `K` | Hover documentation |
 | `<leader>ca` | Code actions |
 | `<leader>rn` | Rename symbol |
+| `gcc` | Toggle line comment |
+| `gc` | Toggle comment (visual) |
+| `ys{motion}{char}` | Add surround |
+| `ds{char}` | Delete surround |
+| `cs{old}{new}` | Change surround |
+| `<leader>r` | Run code |
+| `<leader>rf` | Run file |
+| `<leader>rp` | Run project |
 
 ## Documentation
 

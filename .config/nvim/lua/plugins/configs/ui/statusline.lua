@@ -28,6 +28,44 @@ vim.api.nvim_create_autocmd("BufDelete", {
   end,
 })
 
+-- Highlight groups for file status per mode
+local function setup_file_highlights()
+  local modes = { "normal", "insert", "visual", "replace", "command", "terminal", "inactive" }
+  for _, mode in ipairs(modes) do
+    local lualine_hl = vim.api.nvim_get_hl(0, { name = "lualine_a_" .. mode })
+    local bg = lualine_hl.bg
+    vim.api.nvim_set_hl(0, "LualineDirtyFile_" .. mode, {
+      fg = "#fabd2f", -- yellow for dirty
+      bg = bg,
+      bold = true,
+    })
+    vim.api.nvim_set_hl(0, "LualineNewFile_" .. mode, {
+      fg = "#b8bb26", -- green for new/untracked
+      bg = bg,
+      bold = true,
+    })
+  end
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", { callback = setup_file_highlights })
+vim.defer_fn(setup_file_highlights, 100)
+
+-- Get current mode for highlight group
+local function get_mode_suffix()
+  local mode = vim.fn.mode()
+  local mode_map = {
+    n = "normal",
+    i = "insert",
+    v = "visual",
+    V = "visual",
+    ["\22"] = "visual",
+    R = "replace",
+    c = "command",
+    t = "terminal",
+  }
+  return mode_map[mode] or "normal"
+end
+
 -- Get shortened path relative to git root or cwd, max 3 directories
 local function short_path()
   local filepath = vim.fn.expand("%:p")
@@ -41,21 +79,34 @@ local function short_path()
     path = filepath:sub(#root + 2) -- +2 to remove trailing slash
   end
   local parts = vim.split(path, "/", { plain = true, trimempty = true })
-  local sep = icons.separator .. " "
-  if #parts <= 3 then
-    return icons.folder .. " " .. sep .. table.concat(parts, sep)
+  local sep = " " .. icons.separator .. " "
+  local icon = #parts <= 3 and icons.folder or icons.folder_open
+  local display_parts = #parts <= 3 and parts or { parts[#parts - 2], parts[#parts - 1], parts[#parts] }
+
+  -- Check file git status
+  local filename = display_parts[#display_parts]
+  local gitsigns_status = vim.b.gitsigns_status
+  local gitsigns_head = vim.b.gitsigns_head
+  local mode_suffix = get_mode_suffix()
+
+  if gitsigns_status and gitsigns_status ~= "" then
+    -- File is tracked and has changes (dirty) - yellow
+    display_parts[#display_parts] = "%#LualineDirtyFile_" .. mode_suffix .. "#" .. filename .. "%*"
+  elseif gitsigns_head and not vim.b.gitsigns_status_dict then
+    -- In a git repo but file is untracked (new) - green
+    display_parts[#display_parts] = "%#LualineNewFile_" .. mode_suffix .. "#" .. filename .. "%*"
   end
-  local short_parts = { parts[#parts - 2], parts[#parts - 1], parts[#parts] }
-  return icons.folder_open .. " " .. sep .. table.concat(short_parts, sep)
+
+  return icon .. " " .. sep .. table.concat(display_parts, sep)
 end
 
--- Check if current file is dirty in git
-local function git_dirty()
-  local gitsigns_status = vim.b.gitsigns_status
-  if gitsigns_status and gitsigns_status ~= "" then
-    return icons.git .. " +"
-  end
-  return ""
+-- Responsive conditions
+local function wide_window()
+  return vim.fn.winwidth(0) > 80
+end
+
+local function medium_window()
+  return vim.fn.winwidth(0) > 50
 end
 
 -- LSP error count
@@ -97,13 +148,13 @@ require("lualine").setup({
   },
   sections = {
     lualine_a = { short_path },
-    lualine_b = { git_dirty },
+    lualine_b = {},
     lualine_c = {},
     lualine_x = {
-      { lsp_errors, color = { fg = "#fb4934" } },
-      { lsp_warnings, color = { fg = "#fabd2f" } },
+      { lsp_errors, color = { fg = "#fb4934" }, cond = medium_window },
+      { lsp_warnings, color = { fg = "#fabd2f" }, cond = medium_window },
     },
-    lualine_y = { git_branch },
+    lualine_y = { { git_branch, cond = wide_window } },
     lualine_z = {},
   },
 })

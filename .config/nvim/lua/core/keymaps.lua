@@ -28,3 +28,22 @@ vim.api.nvim_set_keymap("n", "]B", ":blast<CR>", { noremap = true, silent = true
 
 -- command copy file path to clipboard
 vim.cmd([[command! CopyFilePath let @+ = expand('%:p')]])
+
+-- Diagnostic configuration
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = "\u{f06a}",
+    spacing = 2,
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "\u{f00d}",
+      [vim.diagnostic.severity.WARN] = "\u{f071}",
+      [vim.diagnostic.severity.INFO] = "\u{f05a}",
+      [vim.diagnostic.severity.HINT] = "\u{f0eb}",
+    },
+  },
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
