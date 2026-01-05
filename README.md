@@ -25,6 +25,7 @@ Configurations are managed in two ways:
 | **Zsh** | `.zshrc.base` | Shell configuration |
 | **Firefox** | `.config/firefox/` | Browser policies & bookmarks |
 | **EWW** | `.config/eww/` | Capture toolbar (screenshots/recording) |
+| **Fcitx5** | `.config/fcitx5/` | Input method framework |
 | **NixOS** | `nix-config/` | System configuration |
 
 ## Sway Keybindings
@@ -38,6 +39,9 @@ Configurations are managed in two ways:
 | `$mod+c` | Reload config |
 | `$mod+Escape` | Lock screen |
 | `$mod+Shift+e` | Exit sway |
+| `$mod+b` | Open Firefox |
+| `$mod+n` | Open Nautilus |
+| `$mod+Shift+n` | Toggle notification center |
 
 ### Navigation
 | Key | Action |
@@ -52,24 +56,27 @@ Configurations are managed in two ways:
 | `$mod+Shift+h/j/k/l` | Move window |
 | `$mod+f` | Fullscreen |
 | `$mod+d` | Toggle floating |
+| `$mod+Shift+s` | Toggle sticky (show on all workspaces) |
 | `$mod+Return` | Toggle focus tiling/floating |
 | `$mod+r` | Resize mode |
+| `$mod+v` | Split vertical |
+| `$mod+g` | Split horizontal |
 | `$mod+s/w/e` | Stacking/tabbed/split layout |
+| `$mod+a` | Focus parent container |
 
 ### Scratchpad
 | Key | Action |
 |-----|--------|
 | `$mod+-` | Show scratchpad |
 | `$mod+Shift+-` | Move to scratchpad |
+| `$mod+m` | Toggle Spotify |
 
 ### Utilities
 | Key | Action |
 |-----|--------|
-| `Print` | Screenshot (full, clipboard) |
-| `Shift+Print` | Screenshot (area, clipboard) |
-| `$mod+Print` | Screenshot (full, file) |
-| `$mod+Shift+Print` | Screenshot (area, file) |
-| `$mod+b` | Random wallpaper |
+| `Print` | Capture toolbar |
+| `$mod+Shift+p` | Capture toolbar |
+| `$mod+Shift+w` | Random wallpaper |
 | `XF86Audio*` | Volume controls |
 | `XF86MonBrightness*` | Brightness controls |
 
@@ -102,6 +109,7 @@ Prefix: `Ctrl+s`
 │   ├── waybar/         # Status bar + recording status
 │   ├── wofi/           # Launcher
 │   ├── eww/            # Capture toolbar widgets
+│   ├── fcitx5/         # Input method framework
 │   ├── firefox/        # Browser policies
 │   ├── scripts/        # Shared utility scripts
 │   └── mimeapps.list   # Default applications
@@ -177,7 +185,7 @@ All configurations use the **Gruvbox** color scheme:
 
 ## Capture Toolbar
 
-EWW-based toolbar for screenshots and screen recording. Open with `$mod+p`.
+EWW-based toolbar for screenshots and screen recording. Open with `Print` or `$mod+Shift+p`.
 
 ### Features
 
