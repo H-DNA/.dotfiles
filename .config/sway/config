@@ -5,7 +5,7 @@ exec swaync
 
 ### Background apps (minimized to tray)
 exec vesktop --start-minimized
-exec spotify --minimized
+exec spotify
 
 ### Fonts
 font pango:"JetBrainsMono Nerd Font" Regular 11
@@ -60,6 +60,10 @@ hide_edge_borders smart
 # Force pixel borders on all windows (override CSD)
 for_window [title=".*"] border pixel 2
 
+# Spotify: start in scratchpad (hidden), toggle with $mod+m
+for_window [class="Spotify"] move scratchpad
+bindsym $mod+m [class="Spotify"] scratchpad show
+
 # Floating window rules
 for_window [app_id="com.saivert.pwvucontrol"] floating enable, resize set 400 300, move position cursor, move up 320
 for_window [app_id="pavucontrol"] floating enable
@@ -103,7 +107,7 @@ input * {
 focus_follows_mouse yes
 mouse_warping container
 workspace_auto_back_and_forth yes
-focus_on_window_activation smart
+focus_on_window_activation focus
 
 ### Key bindings
 bindsym $mod+t exec $term
