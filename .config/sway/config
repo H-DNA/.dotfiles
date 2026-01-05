@@ -3,6 +3,10 @@
 ### Notification center
 exec swaync
 
+### Background apps (minimized to tray)
+exec vesktop --start-minimized
+exec spotify --minimized
+
 ### Fonts
 font pango:"JetBrainsMono Nerd Font" Regular 11
 

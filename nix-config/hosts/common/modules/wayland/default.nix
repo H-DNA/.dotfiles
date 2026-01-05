@@ -24,6 +24,9 @@
     swww
     wofi
 
+    # System tray support (SNI/AppIndicator)
+    libappindicator-gtk3
+
     # Screenshot & recording
     grim
     slurp

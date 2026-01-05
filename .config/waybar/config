@@ -8,9 +8,7 @@
     "sway/mode",
     "sway/scratchpad"
   ],
-  "modules-center": [
-    "sway/window"
-  ],
+  "modules-center": [],
   "modules-right": [
     "custom/recording",
     "custom/recording-pause",
@@ -21,6 +19,7 @@
     "backlight",
     "power-profiles-daemon",
     "battery",
+    "tray",
     "clock",
     "custom/notification"
   ],
@@ -206,5 +205,10 @@
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8,
+    "show-passive-items": true
   }
 }

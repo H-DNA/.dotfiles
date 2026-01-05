@@ -49,8 +49,9 @@
     ## obsidian
 
     # Communication
-    discord
+    vesktop # Discord client with better Wayland/tray support
     slack
+    spotify
 
     # Media
     ## melonDS
