@@ -21,6 +21,7 @@ return {
         sh = "bash",
         ruby = "ruby",
         php = "php",
+        coq = "coqc $file",
       },
       mode = "term",
       focus = true,
