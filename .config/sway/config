@@ -6,6 +6,7 @@ exec swaync
 ### Background apps (minimized to tray)
 exec vesktop --start-minimized
 exec spotify
+exec slack --startup
 
 ### Fonts
 font pango:"JetBrainsMono Nerd Font" Regular 11
