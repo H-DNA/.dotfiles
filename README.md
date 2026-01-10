@@ -1,5 +1,7 @@
 # Dotfiles
 
+![Status](https://img.shields.io/badge/status-active-brightblue)
+
 Personal dotfiles for a Linux environment running Sway (Wayland compositor) with a Gruvbox color theme.
 
 ## Management
